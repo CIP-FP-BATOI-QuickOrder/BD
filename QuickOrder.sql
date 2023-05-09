@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS QuickOrder;
-CREATE DATABASE QuickOrder;
+DROP DATABASE IF EXISTS quick_order;
+CREATE DATABASE quick_order;
 
-USE QuickOrder;
+USE quick_order;
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
@@ -26,12 +26,12 @@ CREATE TABLE address (
   FOREIGN KEY (user_id) REFERENCES `user`(id)
 );
 
-DROP TABLE IF EXISTS paymentMethod;
-CREATE TABLE paymentMethod (
+DROP TABLE IF EXISTS payment_method;
+CREATE TABLE payment_method (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT,
-  creditCart INT,
-  expirationDate VARCHAR(50),
+  credit_cart INT,
+  expiration_date VARCHAR(50),
   name VARCHAR(50),
   FOREIGN KEY (user_id) REFERENCES `user`(id)
 );
@@ -43,7 +43,7 @@ CREATE TABLE restaurant (
   nif VARCHAR(9) UNIQUE,
   address_id INT,
   password VARCHAR(50),
-  photo VARCHAR(50)
+  photo VARCHAR(50),
   FOREIGN KEY (address_id) REFERENCES address(id)
 );
 
@@ -79,15 +79,15 @@ CREATE TABLE product (
   id INT AUTO_INCREMENT PRIMARY KEY,
   restaurant_id INT,
   name VARCHAR(50),
-  photo VARCHAR(50)
+  photo VARCHAR(50),
   description VARCHAR(100),
   price INT,
   stock INT,
   FOREIGN KEY (restaurant_id) REFERENCES restaurant(id)
 );
 
-DROP TABLE IF EXISTS orderLine;
-CREATE TABLE orderLine (
+DROP TABLE IF EXISTS order_line;
+CREATE TABLE order_line (
   id INT AUTO_INCREMENT,
   order_id INT,
   product_id INT NOT NULL,
