@@ -46,7 +46,19 @@ CREATE TABLE restaurant (
   city varchar(50),
   direction varchar(100),
   delivery_time int,
-  delivery_price int
+  delivery_price int,
+  rating DECIMAL(2,1)
+);
+
+DROP TABLE IF EXISTS ratings;
+CREATE TABLE ratings(
+user_id int,
+restaurant_id int,
+rating int,
+PRIMARY KEY (user_id, restaurant_id),
+FOREIGN KEY (user_id) REFERENCES `user`(id),
+FOREIGN KEY (restaurant_id) REFERENCES restaurant(id)
+
 );
 
 DROP TABLE IF EXISTS tags;
@@ -56,6 +68,7 @@ CREATE TABLE tags (
   name varchar(50),
   FOREIGN KEY (restaurant_id) REFERENCES restaurant(id)
 );
+
 
 DROP TABLE IF EXISTS raider;
 CREATE TABLE raider (
@@ -153,7 +166,8 @@ INSERT INTO user (name, surname, email, password, phone, credit) VALUES
 ('Matthew', 'Young', 'matthew.young@example.com', 'password1234567', '741829630', 400),
 ('Amelia', 'Allen', 'amelia.allen@example.com', 'pass1234567', '852749630', 700),
 ('David', 'King', 'david.king@example.com', 'secret1234567', '369147520', 200),
-('Emma', 'Wright', 'emma.wright@example.com', 'pwd1234567', '147852390', 500);
+('Emma', 'Wright', 'emma.wright@example.com', 'pwd1234567', '147852390', 500),
+('Pablo','Sanjuan','pablo@mail.com','Sanjusanju19','722483050',500);
 
 INSERT INTO tags (restaurant_id, name) VALUES
 (1, 'Italiano'),
@@ -194,4 +208,106 @@ INSERT INTO tags (restaurant_id, name) VALUES
 (18, 'Esquina'),
 (19, 'Sensaciones'),
 (19, 'Degustación');
+
+-- Insertar ratings para el restaurante La Trattoria
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (1, 1, 5);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (2, 1, 4);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (3, 1, 3);
+
+-- Insertar ratings para el restaurante El Bistro Parisino
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (4, 2, 5);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (5, 2, 3);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (6, 2, 4);
+
+-- Insertar ratings para el restaurante La Cantina Mexicana
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (7, 3, 3);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (8, 3, 5);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (9, 3, 4);
+
+-- Insertar ratings para el restaurante Sushi House
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (10, 4, 4);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (11, 4, 5);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (12, 4, 3);
+
+-- Insertar ratings para el restaurante El Asador Argentino
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (13, 5, 5);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (14, 5, 4);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (15, 5, 5);
+
+-- Insertar ratings para el restaurante La Brasserie
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (16, 6, 3);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (17, 6, 5);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (18, 6, 4);
+
+-- Insertar ratings para el restaurante El Rincón del Mar
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (19, 7, 4);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (20, 7, 3);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (21, 7, 5);
+
+-- Insertar ratings para el restaurante La Pizzeria Bella Italia
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (1, 8, 5);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (2, 8, 4);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (3, 8, 3);
+-- Insertar ratings para el restaurante El Gourmet Moderno
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (4, 9, 4);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (5, 9, 5);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (6, 9, 3);
+
+-- Insertar ratings para el restaurante La Taberna Tradicional
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (7, 10, 5);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (8, 10, 4);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (9, 10, 5);
+
+-- Insertar ratings para el restaurante El Restaurante del Chef
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (10, 11, 3);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (11, 11, 5);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (12, 11, 4);
+
+-- Insertar ratings para el restaurante La Parrilla de la Abuela
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (13, 12, 4);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (14, 12, 3);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (15, 12, 5);
+
+-- Insertar ratings para el restaurante El Bistró de los Sabores
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (16, 13, 5);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (17, 13, 4);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (18, 13, 3);
+
+-- Insertar ratings para el restaurante La Cocina Exótica
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (19, 14, 4);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (20, 14, 5);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (21, 14, 3);
+
+-- Insertar ratings para el restaurante El Comedor Familiar
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (1, 15, 5);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (2, 15, 4);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (3, 15, 3);
+
+-- Insertar ratings para el restaurante La Cervecería Artesanal
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (4, 16, 3);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (5, 16, 5);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (6, 16, 4);
+
+-- Insertar ratings para el restaurante El Bistró Mediterráneo
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (7, 17, 4);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (8, 17, 3);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (9, 17, 5);
+
+-- Insertar ratings para el restaurante La Parrilla de la Esquina
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (10, 18, 5);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (11, 18, 4);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (12, 18, 3);
+
+-- Insertar ratings para el restaurante El Restaurante de los Sentidos
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (13, 19, 3);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (14, 19, 5);
+INSERT INTO ratings (user_id, restaurant_id, rating) VALUES (15, 19, 4);
+
+UPDATE restaurant r
+SET r.rating = (
+  SELECT AVG(rt.rating)
+  FROM ratings rt
+  WHERE rt.restaurant_id = r.id
+);
+
 
