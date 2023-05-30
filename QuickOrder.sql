@@ -24,6 +24,7 @@ CREATE TABLE address (
   name VARCHAR(100),
   city VARCHAR(100),
   cp INT,
+  address_name varchar(30),
   FOREIGN KEY (user_id) REFERENCES `user`(id)
 );
 
@@ -451,7 +452,7 @@ VALUES
 
 INSERT INTO product (restaurant_id, name, description, price)
 VALUES
-(15, 'Lasaña de Carne', 'Lasaña casera con carne, pasta y salsa de tomate.', 14.99),
+(15, 'Lasana de Carne', 'Lasana casera con carne, pasta y salsa de tomate.', 14.99),
 (15, 'Milanesa Napolitana', 'Milanesa de ternera empanizada cubierta con salsa de tomate y queso.', 17.99),
 (15, 'Pollo al Horno', 'Pollo jugoso asado al horno con hierbas y especias.', 16.99),
 (15, 'Guiso de Lentejas', 'Guiso tradicional de lentejas con chorizo y verduras.', 12.99),
@@ -465,7 +466,7 @@ VALUES
 VALUES 
   (16, 'Hamburguesa Clasica', 'Jugosa hamburguesa con carne de res, lechuga, tomate y aderezo especial.', 12.99),
   (16, 'Fish and Chips', 'Clasico plato ingles de pescado rebozado y papas fritas.', 14.99),
-  (16, 'Alitas de Pollo', 'Alitas de pollo marinadas y fritas, con salsa a elección.', 10.99),
+  (16, 'Alitas de Pollo', 'Alitas de pollo marinadas y fritas, con salsa a eleccion.', 10.99),
   (16, 'Nachos con Queso', 'Nachos crujientes cubiertos de queso derretido, jalapenos y guacamole.', 9.99),
   (16, 'Ensalada Cesar', 'Ensalada clasica con pollo a la parrilla, croutones y aderezo Cesar.', 13.99),
   (16, 'Sandwich de Pastrami', 'Sandwich relleno de pastrami, pepinillos y mostaza.', 11.99),
@@ -488,7 +489,7 @@ VALUES
  INSERT INTO product (restaurant_id, name, description, price)
 VALUES 
   (18, 'Asado de Tira', 'Delicioso corte de carne de res asado a la parrilla.', 29.99),
-  (18, 'Choripán', 'Clasico sandwich argentino con chorizo a la parrilla.', 12.99),
+  (18, 'Choripan', 'Clasico sandwich argentino con chorizo a la parrilla.', 12.99),
   (18, 'Empanadas', 'Empanadas argentinas rellenas de carne, pollo o verduras.', 9.99),
   (18, 'Provoleta', 'Queso provolone asado a la parrilla con aceite de oliva y especias.', 16.99),
   (18, 'Mollejas', 'Mollejas de ternera a la parrilla con limon y sal.', 19.99),
@@ -509,4 +510,125 @@ VALUES
   (19, 'Pisco Sour', 'Coctel peruano hecho con pisco, limon, azucar y clara de huevo.', 9.99),
   (19, 'Arroz con Mariscos', 'Arroz preparado con una variedad de mariscos frescos.', 23.99),
   (19, 'Papa a la Huancaina', 'Papas cocidas con salsa de aji amarillo y queso fresco.', 10.99);
+ 
+ -- Direcciones adicionales para el usuario con ID 21
+INSERT INTO address (user_id, address, number, name, city, cp, address_name) VALUES
+(21, 'Calle del Carmen', 123, 'Diego Morales', 'Granada', 18009, 'Casa'),
+(21, 'Avenida de la Libertad', 456, 'Laura Ramirez', 'Madrid', 28004, 'Trabajo'),
+(21, 'Calle Goya', 789, 'Luisa Navarro', 'Madrid', 28001, 'Apartamento');
+
+-- Direcciones adicionales para el usuario con ID 16
+INSERT INTO address (user_id, address, number, name, city, cp, address_name) VALUES
+(16, 'Avenida Andalucia', 234, 'Pablo Jimenez', 'Malaga', 29007, 'Casa'),
+(16, 'Calle Pintor Sorolla', 567, 'Ana Rosa', 'Valencia', 46002, 'Trabajo'),
+(16, 'Avenida Gran Via de Colon', 890, 'Javier Ruiz', 'Granada', 18001, 'Apartamento');
+
+-- Direcciones adicionales para el usuario con ID 17
+INSERT INTO address (user_id, address, number, name, city, cp, address_name) VALUES
+(17, 'Calle Serrano Morales', 123, 'Maria Lopez', 'Murcia', 30001, 'Casa'),
+(17, 'Avenida Ramon y Cajal', 456, 'Pedro Garcia', 'Madrid', 28016, 'Trabajo'),
+(17, 'Calle Cervantes', 789, 'Sofia Herrera', 'Sevilla', 41004, 'Apartamento');
+
+-- Direcciones adicionales para el usuario con ID 18
+INSERT INTO address (user_id, address, number, name, city, cp, address_name) VALUES
+(18, 'Calle Gran Via', 123, 'Juan Perez', 'Madrid', 28013, 'Casa'),
+(18, 'Avenida Diagonal', 456, 'Maria Rodriguez', 'Barcelona', 08013, 'Trabajo'),
+(18, 'Calle Mayor', 789, 'Pedro Gomez', 'Valencia', 46002, 'Apartamento');
+
+-- Direcciones adicionales para el usuario con ID 19
+INSERT INTO address (user_id, address, number, name, city, cp, address_name) VALUES
+(19, 'Avenida Paseo de la Castellana', 234, 'Laura Lopez', 'Madrid', 28046, 'Casa'),
+(19, 'Calle Serrano', 567, 'Carlos Martinez', 'Madrid', 28001, 'Trabajo'),
+(19, 'Avenida de la Constitucion', 890, 'Ana Sanchez', 'Sevilla', 41004, 'Apartamento');
+
+-- Direcciones adicionales para el usuario con ID 20
+INSERT INTO address (user_id, address, number, name, city, cp, address_name) VALUES
+(20, 'Calle Rambla de Catalunya', 123, 'Luis Gonzalez', 'Barcelona', 08008, 'Casa'),
+(20, 'Avenida Gran Capitan', 456, 'Elena Vargas', 'Cordoba', 14008, 'Trabajo'),
+(20, 'Calle San Sebastian', 789, 'Miguel Torres', 'San Sebastian', 20003, 'Apartamento');
+
+-- Direcciones adicionales para el usuario con ID 11
+INSERT INTO address (user_id, address, number, name, city, cp, address_name) VALUES
+(11, 'Calle del Sol', 567, 'Maria Rodriguez', 'Barcelona', 08013, 'Casa'),
+(11, 'Avenida Diagonal', 456, 'Juan Perez', 'Madrid', 28013, 'Trabajo'),
+(11, 'Calle Mayor', 789, 'Pedro Gomez', 'Valencia', 46002, 'Apartamento');
+
+-- Direcciones adicionales para el usuario con ID 12
+INSERT INTO address (user_id, address, number, name, city, cp, address_name) VALUES
+(12, 'Avenida Libertador', 123, 'Laura Lopez', 'Madrid', 28046, 'Casa'),
+(12, 'Calle Serrano', 567, 'Carlos Martinez', 'Madrid', 28001, 'Trabajo'),
+(12, 'Avenida de la Constitucion', 890, 'Ana Sanchez', 'Sevilla', 41004, 'Apartamento');
+
+-- Direcciones adicionales para el usuario con ID 13
+INSERT INTO address (user_id, address, number, name, city, cp, address_name) VALUES
+(13, 'Calle Rambla', 123, 'Luis Gonzalez', 'Barcelona', 08008, 'Casa'),
+(13, 'Avenida Gran Capitan', 456, 'Elena Vargas', 'Cordoba', 14008, 'Trabajo'),
+(13, 'Calle San Sebastian', 789, 'Miguel Torres', 'San Sebastian', 20003, 'Apartamento');
+
+-- Direcciones adicionales para el usuario con ID 14
+INSERT INTO address (user_id, address, number, name, city, cp, address_name) VALUES
+(14, 'Avenida Paseo de la Castellana', 234, 'Sara Fernandez', 'Madrid', 28014, 'Casa'),
+(14, 'Calle Alcala', 567, 'Javier Castro', 'Madrid', 28009, 'Trabajo'),
+(14, 'Avenida Marques de Sotelo', 890, 'Isabel Mendoza', 'Valencia', 46002, 'Apartamento');
+
+-- Direcciones adicionales para el usuario con ID 15
+INSERT INTO address (user_id, address, number, name, city, cp, address_name) VALUES
+(15, 'Calle del Carmen', 123, 'Diego Morales', 'Granada', 18009, 'Casa'),
+(15, 'Avenida de la Libertad', 456, 'Laura Ramirez', 'Madrid', 28004, 'Trabajo'),
+(15, 'Calle Goya', 789, 'Luisa Navarro', 'Madrid', 28001, 'Apartamento');
+
+INSERT INTO address (user_id, address, number, name, city, cp, address_name) VALUES
+-- Direcciones adicionales para el usuario con ID 5
+(5, 'Calle Serrano', 567, 'Carlos Martinez', 'Madrid', 28001, 'Casa'),
+(5, 'Avenida de la Constitucion', 890, 'Ana Sanchez', 'Sevilla', 41004, 'Trabajo'),
+(5, 'Calle Rambla de Catalunya', 123, 'Luis Gonzalez', 'Barcelona', 08008, 'Apartamento'),
+
+-- Direcciones adicionales para el usuario con ID 6
+(6, 'Avenida Gran Capitan', 456, 'Elena Vargas', 'Cordoba', 14008, 'Casa'),
+(6, 'Calle San Sebastian', 789, 'Miguel Torres', 'San Sebastian', 20003, 'Trabajo'),
+(6, 'Avenida Paseo del Prado', 234, 'Sara Fernandez', 'Madrid', 28014, 'Apartamento'),
+
+-- Direcciones adicionales para el usuario con ID 7
+(7, 'Calle Alcala', 567, 'Javier Castro', 'Madrid', 28009, 'Casa'),
+(7, 'Avenida Marques de Sotelo', 890, 'Isabel Mendoza', 'Valencia', 46002, 'Trabajo'),
+(7, 'Calle del Carmen', 123, 'Diego Morales', 'Granada', 18009, 'Apartamento'),
+
+-- Direcciones adicionales para el usuario con ID 8
+(8, 'Avenida de la Libertad', 456, 'Laura Ramirez', 'Madrid', 28004, 'Casa'),
+(8, 'Calle Goya', 789, 'Luisa Navarro', 'Madrid', 28001, 'Trabajo'),
+(8, 'Avenida Andalucia', 234, 'Pablo Jimenez', 'Malaga', 29007, 'Apartamento'),
+
+-- Direcciones adicionales para el usuario con ID 9
+(9, 'Calle Pintor Sorolla', 567, 'Ana Rosa', 'Valencia', 46002, 'Casa'),
+(9, 'Avenida Gran Via de Colon', 890, 'Javier Ruiz', 'Granada', 18001, 'Trabajo'),
+(9, 'Calle Serrano Morales', 123, 'Maria Lopez', 'Murcia', 30001, 'Apartamento'),
+
+-- Direcciones adicionales para el usuario con ID 10
+(10, 'Avenida Ramon y Cajal', 456, 'Pedro Garcia', 'Madrid', 28016, 'Casa'),
+(10, 'Calle Cervantes', 789, 'Sofia Herrera', 'Sevilla', 41004, 'Trabajo'),
+(10, 'Calle Gran Via', 234, 'Luis Gonzalez', 'Madrid', 28013, 'Apartamento');
+
+INSERT INTO address (user_id, address, number, name, city, cp, address_name) VALUES
+-- Direcciones adicionales para el usuario con ID 1
+(1, 'Calle Gran Via', 123, 'Juan Perez', 'Madrid', 28013, 'Casa'),
+(1, 'Calle Mayor', 456, 'Maria Gomez', 'Madrid', 28013, 'Trabajo'),
+
+-- Direcciones adicionales para el usuario con ID 2
+(2, 'Avenida Diagonal', 789, 'Carlos Rodriguez', 'Barcelona', 08013, 'Casa'),
+(2, 'Avenida Gran Via', 234, 'Laura Martinez', 'Barcelona', 08013, 'Apartamento'),
+(2, 'Calle Rambla', 567, 'Pedro Lopez', 'Barcelona', 08013, 'Playa'),
+
+-- Direcciones adicionales para el usuario con ID 3
+(3, 'Calle Mayor', 789, 'Maria Gomez', 'Valencia', 46002, 'Casa'),
+(3, 'Avenida del Puerto', 234, 'Sofia Torres', 'Valencia', 46002, 'Trabajo'),
+(3, 'Calle de la Paz', 567, 'Javier Garcia', 'Valencia', 46002, 'Apartamento'),
+
+-- Agrega aqui las direcciones adicionales para otros usuarios segun el mismo patron
+-- (user_id, address, number, name, city, cp, address_name)
+
+-- Por ejemplo, direcciones adicionales para el usuario con ID 4
+(4, 'Avenida Paseo de la Castellana', 234, 'Laura Lopez', 'Madrid', 28046, 'Trabajo'),
+(4, 'Calle Serrano', 567, 'Carlos Martinez', 'Madrid', 28001, 'Casa'),
+(4, 'Avenida Gran Capitan', 890, 'Elena Vargas', 'Cordoba', 14008, 'Apartamento');
+
 
