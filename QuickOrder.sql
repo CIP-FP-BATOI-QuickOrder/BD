@@ -132,6 +132,18 @@ CREATE TABLE order_line (
   FOREIGN KEY (product_id) REFERENCES product(id)
 );
 
+DROP TABLE IF EXISTS review;
+CREATE TABLE review (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id INT,
+  restaurant_id INT,
+  content VARCHAR(500),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES `user`(id),
+  FOREIGN KEY (restaurant_id) REFERENCES restaurant(id)
+);
+
+
 INSERT INTO restaurant (name, nif, password, photo, city, direction, delivery_time, delivery_price) VALUES
 ('La Trattoria', '123456789', 'pass123', 'photo1.png', 'Ciudad del Sol', 'Calle de la Luna, 123', 30, FLOOR(RAND() * 11)),
 ('El Bistro Parisino', '987654321', 'secret456', 'photo2.png', 'Ciudad Encantada', 'Avenida de los Suenos, 456', 45, FLOOR(RAND() * 11)),
@@ -281,52 +293,52 @@ UPDATE restaurant r SET r.rating = ( SELECT AVG(rt.rating) FROM ratings rt WHERE
 INSERT INTO favorites (user_id, restaurant_id) VALUES (1, 1), (1, 2), (1, 3), (2, 4), (2, 5), (2, 6), (3, 7), (3, 8), (3, 9), (4, 10),(4, 11), (4, 12), (5, 13), (5, 14), (5, 15), (6, 16), (6, 17), (6, 18), (7, 19),(8, 1), (8, 2), (8, 3), (9, 4), (9, 5), (9, 6), (10, 7), (10, 8),(10, 9), (11, 10), (11, 11), (11, 12), (12, 13), (12, 14), (12, 15), (13, 16),(13, 17), (13, 18), (14, 19), (15, 1), (15, 2), (15, 3), (16, 4),(16, 5), (16, 6), (17, 7), (17, 8), (17, 9), (18, 10), (18, 11), (18, 12), (19, 13),(19, 14), (19, 15), (20, 16), (20, 17), (20, 18), (21, 19);
 
 INSERT INTO product (restaurant_id, name, description, price) VALUES
-(1, 'Pizza Margherita', 'La Pizza Margherita es un clasico de la cocina italiana que combina ingredientes frescos y sabores autenticos. Esta deliciosa pizza cuenta con una base de salsa de tomate casera, suave mozzarella fresca y hojas de albahaca recien cortadas. El resultado es una explosión de sabores en cada bocado.', 10.99),
+(1, 'Pizza Margherita', 'La Pizza Margherita es un clasico de la cocina italiana que combina ingredientes frescos y sabores autenticos. Esta deliciosa pizza cuenta con una base de salsa de tomate casera, suave mozzarella fresca y hojas de albahaca recien cortadas. El resultado es una explosion de sabores en cada bocado.', 10.99),
 (1, 'Pasta Carbonara', 'Nuestra Pasta Carbonara es un plato que te transportara directamente a las trattorias de Roma. Preparada con pasta al dente y una irresistible salsa de huevo, panceta crujiente y queso parmesano rallado, cada bocado es una experiencia de sabor autentico. El equilibrio perfecto entre cremosidad y salinidad hace de esta receta un clasico de la cocina italiana.', 12.99),
-(1, 'Risotto ai Funghi', 'Nuestro Risotto ai Funghi es un plato elegante y reconfortante que combina la cremosidad del arroz Arborio con la exquisitez de los champiñones frescos, la cebolla caramelizada y el queso parmesano rallado. Cada cucharada es una explosión de sabores terrosos y una textura suave que deleitara tus sentidos.', 14.99),
-(1, 'Lasagna Bolognese', 'Nuestra Lasagna Bolognese es una deliciosa combinación de capas de pasta fresca, carne de res jugosa y salsa boloñesa casera. Cada porción esta cuidadosamente preparada con ingredientes de alta calidad y horneada hasta obtener una capa superior dorada y gratinada.', 16.99),
+(1, 'Risotto ai Funghi', 'Nuestro Risotto ai Funghi es un plato elegante y reconfortante que combina la cremosidad del arroz Arborio con la exquisitez de los champiñones frescos, la cebolla caramelizada y el queso parmesano rallado. Cada cucharada es una explosion de sabores terrosos y una textura suave que deleitara tus sentidos.', 14.99),
+(1, 'Lasagna Bolognese', 'Nuestra Lasagna Bolognese es una deliciosa combinacion de capas de pasta fresca, carne de res jugosa y salsa boloñesa casera. Cada porcion esta cuidadosamente preparada con ingredientes de alta calidad y horneada hasta obtener una capa superior dorada y gratinada.', 16.99),
 (1, 'Pollo alla Cacciatora', 'El Pollo alla Cacciatora es un plato tradicional italiano que combina tierna carne de pollo guisada con tomate, cebolla, aceitunas y especias aromaticas. Cada bocado te transportara a la campiña italiana con sus sabores ricos y reconfortantes.', 15.99),
 (1, 'Bruschetta Caprese', 'Nuestras Bruschettas Caprese son tostadas de pan crujiente cubiertas con tomate fresco, mozzarella de bufala, hojas de albahaca y un chorrito de aceite de oliva virgen extra. Estas deliciosas y coloridas tostadas son perfectas como aperitivo o entrante.', 8.99),
 (1, 'Tiramisu', 'El Tiramisu es un clasico postre italiano hecho con capas de bizcocho bañado en cafe, crema de mascarpone y espolvoreado con cacao en polvo. Cada cucharada de este postre es una mezcla de texturas suaves y sabores delicados.', 9.99),
 (1, 'Cannoli Siciliani', 'Los Cannoli Siciliani son postres tradicionales de Sicilia hechos con una masa crujiente y rellenos de crema de ricota dulce y chispas de chocolate. Estos deliciosos dulces son un verdadero placer para los amantes de la reposteria italiana.', 7.99),
 (1, 'Gelato al Cioccolato', 'El Gelato al Cioccolato es un helado italiano cremoso y rico, elaborado con chocolate oscuro de alta calidad. Disfruta de este clasico sabor italiano que te refrescara en los dias calurosos o te deleitara en cualquier momento.', 6.99),
-(1, 'Panna Cotta', 'La Panna Cotta es un postre italiano suave y sedoso hecho a base de crema cocida, azucar y gelatina de vainilla. Esta delicada y deliciosa creación es el final perfecto para una comida italiana inolvidable.', 8.99);
+(1, 'Panna Cotta', 'La Panna Cotta es un postre italiano suave y sedoso hecho a base de crema cocida, azucar y gelatina de vainilla. Esta delicada y deliciosa creacion es el final perfecto para una comida italiana inolvidable.', 8.99);
 
 INSERT INTO product (restaurant_id, name, description, price)
 VALUES
-(2, 'Croque Monsieur', 'Un delicioso y clasico sandwich frances relleno de jamón y queso gruyère, tostado hasta obtener una textura crujiente por fuera y un interior suave y derretido.', 14.99),
-(2, 'Escargots de Bourgogne', 'Una exquisita especialidad francesa que consiste en caracoles de Borgoña cocinados con mantequilla y ajo, presentados en su propia concha. Cada bocado ofrece una combinación de sabores delicados y aromaticos.', 18.99),
+(2, 'Croque Monsieur', 'Un delicioso y clasico sandwich frances relleno de jamon y queso gruyère, tostado hasta obtener una textura crujiente por fuera y un interior suave y derretido.', 14.99),
+(2, 'Escargots de Bourgogne', 'Una exquisita especialidad francesa que consiste en caracoles de Borgoña cocinados con mantequilla y ajo, presentados en su propia concha. Cada bocado ofrece una combinacion de sabores delicados y aromaticos.', 18.99),
 (2, 'Boeuf Bourguignon', 'Un reconfortante estofado frances preparado con trozos tiernos de ternera cocinados a fuego lento en vino tinto y acompañados de verduras frescas, creando un plato lleno de sabores profundos y suculentos.', 22.99),
 (2, 'Salade Nicoise', 'Una ensalada clasica de la cocina francesa que combina ingredientes frescos y vibrantes. Esta compuesta por atun, huevos, tomates, aceitunas y judias verdes, todo ello aliñado con una vinagreta de hierbas aromaticas.', 12.99),
-(2, 'Soupe à l\'Oignon', 'Una reconfortante sopa francesa de cebolla que se sirve gratinada con queso y croutons. Cada cucharada es una explosión de sabores, con la dulzura de las cebollas caramelizadas y la riqueza del caldo.', 10.99),
+(2, 'Soupe à l\'Oignon', 'Una reconfortante sopa francesa de cebolla que se sirve gratinada con queso y croutons. Cada cucharada es una explosion de sabores, con la dulzura de las cebollas caramelizadas y la riqueza del caldo.', 10.99),
 (2, 'Coq au Vin', 'Un plato tradicional de la cocina francesa que consiste en pollo guisado en vino tinto junto con champiñones y cebolla. El resultado es una carne tierna y jugosa impregnada de los sabores ricos y complejos de los ingredientes.', 20.99),
-(2, 'Crème Brûlee', 'Un postre icónico de la gastronomia francesa que consta de una delicada crema pastelera con una capa superior de caramelo crujiente. Cada cucharada ofrece una combinación de texturas suaves y crujientes, junto con un sabor dulce y fragante.', 8.99),
+(2, 'Crème Brûlee', 'Un postre iconico de la gastronomia francesa que consta de una delicada crema pastelera con una capa superior de caramelo crujiente. Cada cucharada ofrece una combinacion de texturas suaves y crujientes, junto con un sabor dulce y fragante.', 8.99),
 (2, 'Tarte Tatin', 'Una tentadora tarta francesa que destaca por sus manzanas caramelizadas y su base de masa crujiente. Se sirve tibia y se puede disfrutar tal cual o acompañada de una bola de helado de vainilla para un contraste perfecto.', 10.99),
-(2, 'Ratatouille', 'Un plato provenzal lleno de colores y sabores. Se compone de una mezcla de verduras asadas, como berenjena, calabacin y tomate, que se combinan en perfecta armonia. Es una opción saludable y deliciosa para los amantes de las verduras.', 16.99),
-(2, 'Macarons', 'Estos exquisitos dulces franceses hechos a base de almendra son famosos por su apariencia colorida y su sabor delicado. Cada macaron ofrece una combinación de sabores unicos, desde frutas hasta chocolates, que se derriten en el paladar.', 7.99);
+(2, 'Ratatouille', 'Un plato provenzal lleno de colores y sabores. Se compone de una mezcla de verduras asadas, como berenjena, calabacin y tomate, que se combinan en perfecta armonia. Es una opcion saludable y deliciosa para los amantes de las verduras.', 16.99),
+(2, 'Macarons', 'Estos exquisitos dulces franceses hechos a base de almendra son famosos por su apariencia colorida y su sabor delicado. Cada macaron ofrece una combinacion de sabores unicos, desde frutas hasta chocolates, que se derriten en el paladar.', 7.99);
 
 
 INSERT INTO product (restaurant_id, name, description, price)
 VALUES
 (3, 'Tacos al Pastor', 'Estos irresistibles tacos mexicanos presentan tiernas y jugosas rebanadas de cerdo marinado con una mezcla de especias tradicionales y un toque de piña, que le aporta un sabor agridulce unico.', 12.99),
-(3, 'Enchiladas Verdes', 'Un plato clasico de la gastronomia mexicana que consiste en tortillas de maiz rellenas de pollo tierno y bañadas en una vibrante salsa verde hecha a base de tomatillos, chiles y especias. Cada bocado es una explosión de sabores autenticos.', 10.99),
+(3, 'Enchiladas Verdes', 'Un plato clasico de la gastronomia mexicana que consiste en tortillas de maiz rellenas de pollo tierno y bañadas en una vibrante salsa verde hecha a base de tomatillos, chiles y especias. Cada bocado es una explosion de sabores autenticos.', 10.99),
 (3, 'Chiles Rellenos', 'Estos chiles poblanos son rellenos generosamente con queso y luego bañados en una salsa de tomate casera llena de sabores ahumados y especiados. Es un plato picante y reconfortante que cautivara tu paladar.', 14.99),
-(3, 'Mole Poblano', 'Un plato icónico de Mexico que presenta pollo tierno cocinado en una salsa de mole poblano. Esta salsa rica y compleja combina ingredientes como chiles, chocolate, especias y frutos secos para crear un sabor unico y sorprendente.', 16.99),
+(3, 'Mole Poblano', 'Un plato iconico de Mexico que presenta pollo tierno cocinado en una salsa de mole poblano. Esta salsa rica y compleja combina ingredientes como chiles, chocolate, especias y frutos secos para crear un sabor unico y sorprendente.', 16.99),
 (3, 'Guacamole', 'Una deliciosa salsa mexicana hecha con aguacate fresco, tomate, cebolla y cilantro. Su textura cremosa y su sabor fresco y vibrante lo convierten en el acompañamiento perfecto para tus tacos y nachos favoritos.', 8.99),
-(3, 'Tostadas de Ceviche', 'Estas tostadas de maiz crujientes estan coronadas con ceviche fresco de pescado y mariscos, marinados en limón y mezclado con ingredientes como cebolla, tomate y cilantro. Son una explosión de sabores y texturas.', 9.99),
+(3, 'Tostadas de Ceviche', 'Estas tostadas de maiz crujientes estan coronadas con ceviche fresco de pescado y mariscos, marinados en limon y mezclado con ingredientes como cebolla, tomate y cilantro. Son una explosion de sabores y texturas.', 9.99),
 (3, 'Quesadillas', 'Estas quesadillas mexicanas son tortillas de maiz rellenas de queso fundido, que se derrite hasta obtener una textura suave y cremosa. Se sirven con guacamole fresco para complementar su sabor y brindarte una experiencia deliciosa.', 7.99),
-(3, 'Flan Napolitano', 'Un postre tradicional mexicano que consiste en un flan suave y sedoso, cubierto con un caramelo dorado y dulce. Cada cucharada te brinda una combinación irresistible de texturas y sabores que te dejaran deseando mas.', 6.99),
+(3, 'Flan Napolitano', 'Un postre tradicional mexicano que consiste en un flan suave y sedoso, cubierto con un caramelo dorado y dulce. Cada cucharada te brinda una combinacion irresistible de texturas y sabores que te dejaran deseando mas.', 6.99),
 (3, 'Churros', 'Estos dulces fritos en forma de bastones son una delicia mexicana clasica. Estan cubiertos con una generosa capa de azucar y canela, y se sirven calientes para que puedas disfrutar de su exterior crujiente y su interior suave y esponjoso.', 5.99),
 (3, 'Horchata', 'Una refrescante bebida mexicana hecha a base de arroz, canela y azucar. Su sabor dulce y ligeramente especiado la convierte en la compañia perfecta para tus comidas mexicanas, refrescandote y satisfaciendo tu paladar.', 4.99);
 
 INSERT INTO product (restaurant_id, name, description, price)
 VALUES
-(4, 'Sashimi Variado', 'Disfruta de una exquisita selección de pescados crudos expertamente cortados en finas laminas. Cada bocado te transportara a la frescura del mar y te permitira apreciar la calidad y sabor de cada variedad.', 18.99),
-(4, 'Roll de Salmon y Aguacate', 'Este delicioso maki roll combina la suavidad del salmón fresco con la cremosidad del aguacate. Envolto en una capa de arroz y alga nori, es un verdadero placer para los amantes de los sabores sutiles y equilibrados.', 12.99),
-(4, 'Nigiri de Atun', 'Pequeñas bolitas de arroz perfectamente moldeadas y coronadas con laminas de atun fresco. Cada nigiri es una explosión de frescura y textura, resaltando la calidad y sabor del atun en cada bocado.', 10.99),
-(4, 'Uramaki Tempura', 'Un roll invertido que combina la crujiente textura del langostino tempura con la suavidad del aguacate. Cada bocado te sorprendera con una mezcla de sabores y una textura contrastante que lo convierte en una opción irresistible.', 14.99),
+(4, 'Sashimi Variado', 'Disfruta de una exquisita seleccion de pescados crudos expertamente cortados en finas laminas. Cada bocado te transportara a la frescura del mar y te permitira apreciar la calidad y sabor de cada variedad.', 18.99),
+(4, 'Roll de Salmon y Aguacate', 'Este delicioso maki roll combina la suavidad del salmon fresco con la cremosidad del aguacate. Envolto en una capa de arroz y alga nori, es un verdadero placer para los amantes de los sabores sutiles y equilibrados.', 12.99),
+(4, 'Nigiri de Atun', 'Pequeñas bolitas de arroz perfectamente moldeadas y coronadas con laminas de atun fresco. Cada nigiri es una explosion de frescura y textura, resaltando la calidad y sabor del atun en cada bocado.', 10.99),
+(4, 'Uramaki Tempura', 'Un roll invertido que combina la crujiente textura del langostino tempura con la suavidad del aguacate. Cada bocado te sorprendera con una mezcla de sabores y una textura contrastante que lo convierte en una opcion irresistible.', 14.99),
 (4, 'Gyoza', 'Estas empanadillas japonesas estan rellenas de una deliciosa mezcla de carne y verduras, y se cocinan al vapor y luego se doran en la sarten para obtener una textura crujiente por fuera y jugosa por dentro. Son el aperitivo perfecto para deleitar tu paladar.', 8.99),
-(4, 'Yakitori', 'Sabrosas brochetas de pollo a la parrilla bañadas en una irresistible salsa teriyaki. Cada bocado te brinda el equilibrio perfecto entre el pollo jugoso y el sabor dulce y salado de la salsa, una combinación clasica de la cocina japonesa.', 9.99),
+(4, 'Yakitori', 'Sabrosas brochetas de pollo a la parrilla bañadas en una irresistible salsa teriyaki. Cada bocado te brinda el equilibrio perfecto entre el pollo jugoso y el sabor dulce y salado de la salsa, una combinacion clasica de la cocina japonesa.', 9.99),
 (4, 'Miso Soup', 'Una sopa japonesa reconfortante hecha a base de pasta de soja y caldo dashi. Su sabor umami y su textura suave te envolveran en una experiencia gustativa unica, ideal para comenzar tu comida japonesa.', 5.99),
 (4, 'Tempura de Vegetales', 'Disfruta de una deliciosa variedad de vegetales frescos cubiertos con una masa ligera y crujiente. Cada bocado revela una textura increiblemente crujiente y un sabor naturalmente dulce de los vegetales. Es el acompañamiento perfecto o un plato por si solo.', 7.99),
 (4, 'Tataki de Atun', 'Laminas de atun fresco ligeramente selladas y cubiertas con semillas de sesamo, aportando un toque de sabor y textura. Servido con salsa de soja, este plato resalta la calidad del atun y ofrece un contraste delicioso entre el exterior ligeramente crujiente y el centro suculento del pescado.', 16.99),
@@ -334,131 +346,131 @@ VALUES
 
 INSERT INTO product (restaurant_id, name, description, price)
 VALUES
-(5, 'Bife de Chorizo', 'Disfruta de un jugoso corte de carne de res a la parrilla, cocinado a la perfección para resaltar su sabor y textura. Cada bocado te deleitara con su jugosidad y la intensidad de su sabor.', 22.99),
-(5, 'Asado de Tira', 'Deleitate con unas costillas de res asadas a la parrilla, tiernas y sabrosas, acompañadas de una irresistible salsa chimichurri. Cada mordisco te transportara a la tradición de los asados argentinos.', 25.99),
-(5, 'Empanadas Argentinas', 'Saborea autenticas empanadas argentinas, rellenas de jugosa carne, pollo o verduras, envueltas en una masa crujiente y horneadas hasta alcanzar la perfección. Cada bocado te sorprendera con su combinación de sabores y texturas.', 9.99),
-(5, 'Matambre a la Pizza', 'Disfruta de un delicioso roll de carne relleno con los clasicos ingredientes de una pizza. El matambre, tierno y sabroso, envuelve el queso, tomate y oregano, creando una combinación irresistible de sabores.', 18.99),
-(5, 'Provoleta', 'Degusta el autentico queso provolone a la parrilla, gratinado con tomate y oregano. Cada porción te brindara la combinación perfecta de queso derretido, tomate jugoso y aromatico oregano, creando una experiencia inigualable.', 14.99),
-(5, 'Milanesa Napolitana', 'Prueba una deliciosa milanesa de carne empanizada, cubierta con salsa de tomate y queso gratinado. Cada bocado te brindara la combinación de sabores y texturas crujientes de la milanesa con la suavidad del queso derretido y la acidez de la salsa de tomate.', 16.99),
-(5, 'Choripan', 'Disfruta del clasico sabor argentino con un choripan, un delicioso sandwich relleno de chorizo a la parrilla. El sabor ahumado del chorizo se combina con la frescura del pan y los condimentos, creando una explosión de sabores en cada bocado.', 10.99),
-(5, 'Alfajores', 'Endulza tu paladar con los clasicos alfajores argentinos, rellenos de dulce de leche y cubiertos de chocolate. Cada mordisco te brindara la combinación perfecta de suave textura, dulce sabor a caramelo y el toque de chocolate que los hace irresistibles.', 7.99);
+(5, 'Bife de Chorizo', 'Disfruta de un jugoso corte de carne de res a la parrilla, cocinado a la perfeccion para resaltar su sabor y textura. Cada bocado te deleitara con su jugosidad y la intensidad de su sabor.', 22.99),
+(5, 'Asado de Tira', 'Deleitate con unas costillas de res asadas a la parrilla, tiernas y sabrosas, acompañadas de una irresistible salsa chimichurri. Cada mordisco te transportara a la tradicion de los asados argentinos.', 25.99),
+(5, 'Empanadas Argentinas', 'Saborea autenticas empanadas argentinas, rellenas de jugosa carne, pollo o verduras, envueltas en una masa crujiente y horneadas hasta alcanzar la perfeccion. Cada bocado te sorprendera con su combinacion de sabores y texturas.', 9.99),
+(5, 'Matambre a la Pizza', 'Disfruta de un delicioso roll de carne relleno con los clasicos ingredientes de una pizza. El matambre, tierno y sabroso, envuelve el queso, tomate y oregano, creando una combinacion irresistible de sabores.', 18.99),
+(5, 'Provoleta', 'Degusta el autentico queso provolone a la parrilla, gratinado con tomate y oregano. Cada porcion te brindara la combinacion perfecta de queso derretido, tomate jugoso y aromatico oregano, creando una experiencia inigualable.', 14.99),
+(5, 'Milanesa Napolitana', 'Prueba una deliciosa milanesa de carne empanizada, cubierta con salsa de tomate y queso gratinado. Cada bocado te brindara la combinacion de sabores y texturas crujientes de la milanesa con la suavidad del queso derretido y la acidez de la salsa de tomate.', 16.99),
+(5, 'Choripan', 'Disfruta del clasico sabor argentino con un choripan, un delicioso sandwich relleno de chorizo a la parrilla. El sabor ahumado del chorizo se combina con la frescura del pan y los condimentos, creando una explosion de sabores en cada bocado.', 10.99),
+(5, 'Alfajores', 'Endulza tu paladar con los clasicos alfajores argentinos, rellenos de dulce de leche y cubiertos de chocolate. Cada mordisco te brindara la combinacion perfecta de suave textura, dulce sabor a caramelo y el toque de chocolate que los hace irresistibles.', 7.99);
 INSERT INTO product (restaurant_id, name, description, price)
 VALUES
-(6, 'Escargots de Bourgogne', 'Sumergete en la exquisitez de los caracoles cocinados en mantequilla y ajo, una deliciosa y tradicional preparación francesa. Cada bocado te transportara a los sabores autenticos de la región de Borgoña.', 19.99),
-(6, 'Coq au Vin', 'Disfruta de un plato clasico de la gastronomia francesa: pollo guisado en vino tinto con champiñones y cebollas. Cada porción te sorprendera con su tierna carne de pollo impregnada de los sabores ricos y robustos del vino.', 21.99),
-(6, 'Bouillabaisse', 'Dejate seducir por los sabores mediterraneos de la bouillabaisse, una exquisita sopa de pescado y mariscos. Disfruta de la frescura del mar en cada cucharada, con una combinación de sabores y aromas que te transportaran a la costa de Francia.', 24.99),
-(6, 'Tarte Tatin', 'Prueba la tentación de una tarta de manzana caramelizada invertida. Cada porción te brindara la combinación perfecta de manzanas suavemente caramelizadas y una base de masa crujiente, creando un contraste de sabores y texturas inigualable.', 12.99),
-(6, 'Quiche Lorraine', 'Deleitate con una exquisita tarta salada conocida como Quiche Lorraine. Esta delicia francesa combina tocino ahumado, queso y una suave crema en una base de masa dorada, creando una combinación de sabores salados y cremosos.', 15.99),
+(6, 'Escargots de Bourgogne', 'Sumergete en la exquisitez de los caracoles cocinados en mantequilla y ajo, una deliciosa y tradicional preparacion francesa. Cada bocado te transportara a los sabores autenticos de la region de Borgoña.', 19.99),
+(6, 'Coq au Vin', 'Disfruta de un plato clasico de la gastronomia francesa: pollo guisado en vino tinto con champiñones y cebollas. Cada porcion te sorprendera con su tierna carne de pollo impregnada de los sabores ricos y robustos del vino.', 21.99),
+(6, 'Bouillabaisse', 'Dejate seducir por los sabores mediterraneos de la bouillabaisse, una exquisita sopa de pescado y mariscos. Disfruta de la frescura del mar en cada cucharada, con una combinacion de sabores y aromas que te transportaran a la costa de Francia.', 24.99),
+(6, 'Tarte Tatin', 'Prueba la tentacion de una tarta de manzana caramelizada invertida. Cada porcion te brindara la combinacion perfecta de manzanas suavemente caramelizadas y una base de masa crujiente, creando un contraste de sabores y texturas inigualable.', 12.99),
+(6, 'Quiche Lorraine', 'Deleitate con una exquisita tarta salada conocida como Quiche Lorraine. Esta delicia francesa combina tocino ahumado, queso y una suave crema en una base de masa dorada, creando una combinacion de sabores salados y cremosos.', 15.99),
 (6, 'Creme Brulee', 'Satisface tu paladar con un postre clasico: el creme brulee. Disfruta de la suave crema quemada en la parte superior, contrastando con la dulzura y la delicadeza de la crema en su interior. Cada cucharada es una experiencia de sabor unica.', 10.99),
 (6, 'Ratatouille', 'Descubre el encanto de un plato provenzal de verduras asadas como berenjena, calabacin y tomate. Cada bocado te sumergira en la frescura y la riqueza de los sabores mediterraneos, creando una experiencia culinaria llena de colores y texturas.', 16.99),
-(6, 'Profiteroles', 'Deleitate con las bolitas de masa rellenas de crema y bañadas en chocolate que conforman los profiteroles. Cada bocado te brindara la combinación perfecta de suave y esponjosa masa, cremosa crema y el rico sabor del chocolate.', 9.99),
-(6, 'Salade Nicoise', 'Disfruta de una refrescante ensalada que combina atun, tomate, huevo, aceitunas y judias verdes. Cada bocado te deleitara con la frescura de los ingredientes y la combinación de sabores mediterraneos.', 14.99),
-(6, 'Crepes Suzette', 'Dejate seducir por las crepes flameadas con salsa de naranja y Grand Marnier. Cada bocado te brindara la combinación de suaves y delicadas crepes, la dulzura citrica de la salsa de naranja y el toque especial del licor Grand Marnier.', 17.99);
+(6, 'Profiteroles', 'Deleitate con las bolitas de masa rellenas de crema y bañadas en chocolate que conforman los profiteroles. Cada bocado te brindara la combinacion perfecta de suave y esponjosa masa, cremosa crema y el rico sabor del chocolate.', 9.99),
+(6, 'Salade Nicoise', 'Disfruta de una refrescante ensalada que combina atun, tomate, huevo, aceitunas y judias verdes. Cada bocado te deleitara con la frescura de los ingredientes y la combinacion de sabores mediterraneos.', 14.99),
+(6, 'Crepes Suzette', 'Dejate seducir por las crepes flameadas con salsa de naranja y Grand Marnier. Cada bocado te brindara la combinacion de suaves y delicadas crepes, la dulzura citrica de la salsa de naranja y el toque especial del licor Grand Marnier.', 17.99);
 
 
 INSERT INTO product (restaurant_id, name, description, price)
 VALUES
-(7, 'Paella de Mariscos', 'Sumergete en los sabores del mar con nuestra exquisita paella de mariscos. Este plato tradicional combina arroz con langostinos, mejillones, calamares y otros deliciosos mariscos, todo cocinado a la perfección en un sabroso caldo.', 25.99),
-(7, 'Ceviche Mixto', 'Disfruta de la frescura del mar con nuestro ceviche mixto. Pescado y mariscos maravillosamente marinados en limón con un toque de aji y cebolla, creando un plato refrescante y lleno de sabor.', 18.99),
-(7, 'Pulpo a la Gallega', 'Dejate tentar por nuestro delicioso pulpo a la gallega. Tierno pulpo cocido a la perfección, acompañado de aceite de oliva, pimentón y patatas, creando una combinación de sabores tradicionales y reconfortantes.', 21.99),
-(7, 'Gambas al Ajillo', 'Saborea nuestras gambas al ajillo, un clasico plato español. Gambas frescas salteadas en aceite de oliva con ajo y guindilla, creando una explosión de sabores y un toque picante que no podras resistir.', 16.99),
-(7, 'Calamares a la Romana', 'Disfruta de nuestras crujientes y deliciosas anillas de calamar rebozadas y fritas. Cada bocado te brindara una combinación de texturas y un sabor marino unico que te transportara a las costas mediterraneas.', 12.99),
+(7, 'Paella de Mariscos', 'Sumergete en los sabores del mar con nuestra exquisita paella de mariscos. Este plato tradicional combina arroz con langostinos, mejillones, calamares y otros deliciosos mariscos, todo cocinado a la perfeccion en un sabroso caldo.', 25.99),
+(7, 'Ceviche Mixto', 'Disfruta de la frescura del mar con nuestro ceviche mixto. Pescado y mariscos maravillosamente marinados en limon con un toque de aji y cebolla, creando un plato refrescante y lleno de sabor.', 18.99),
+(7, 'Pulpo a la Gallega', 'Dejate tentar por nuestro delicioso pulpo a la gallega. Tierno pulpo cocido a la perfeccion, acompañado de aceite de oliva, pimenton y patatas, creando una combinacion de sabores tradicionales y reconfortantes.', 21.99),
+(7, 'Gambas al Ajillo', 'Saborea nuestras gambas al ajillo, un clasico plato español. Gambas frescas salteadas en aceite de oliva con ajo y guindilla, creando una explosion de sabores y un toque picante que no podras resistir.', 16.99),
+(7, 'Calamares a la Romana', 'Disfruta de nuestras crujientes y deliciosas anillas de calamar rebozadas y fritas. Cada bocado te brindara una combinacion de texturas y un sabor marino unico que te transportara a las costas mediterraneas.', 12.99),
 (7, 'Sopa de Pescado', 'Sumergete en la calidez de nuestra reconfortante sopa de pescado. Trozos de pescado y mariscos se combinan en un caldo lleno de sabor, creando una experiencia culinaria que te reconfortara en cada cucharada.', 10.99),
-(7, 'Pargo a la Veracruzana', 'Prueba nuestro pargo a la veracruzana, un plato lleno de sabores vibrantes. Pargo asado con una deliciosa salsa de tomate, aceitunas y alcaparras, que le brindan un toque mediterraneo y una explosión de sabores.', 22.99),
+(7, 'Pargo a la Veracruzana', 'Prueba nuestro pargo a la veracruzana, un plato lleno de sabores vibrantes. Pargo asado con una deliciosa salsa de tomate, aceitunas y alcaparras, que le brindan un toque mediterraneo y una explosion de sabores.', 22.99),
 (7, 'Flan de Coco', 'Deleita tu paladar con nuestro exquisito flan de coco. Cada cucharada te transportara a un paraiso tropical con su suave textura y su sabor dulce a coco, todo coronado con un rico caramelo.', 8.99);
 
 INSERT INTO product (restaurant_id, name, description, price)
 VALUES
-(8, 'Pizza Margherita', 'Sumergete en la clasica pizza Margherita, con salsa de tomate, mozzarella y albahaca fresca. Cada bocado es una explosión de sabores italianos autenticos y la combinación perfecta de ingredientes simples pero deliciosos.', 14.99),
+(8, 'Pizza Margherita', 'Sumergete en la clasica pizza Margherita, con salsa de tomate, mozzarella y albahaca fresca. Cada bocado es una explosion de sabores italianos autenticos y la combinacion perfecta de ingredientes simples pero deliciosos.', 14.99),
 (8, 'Pizza Pepperoni', 'Prueba nuestra deliciosa pizza Pepperoni, con salsa de tomate, generosas capas de mozzarella y rodajas de pepperoni picante. Cada mordisco te brinda el equilibrio perfecto entre el queso fundido y el sabor ahumado de los pepperoni.', 16.99),
-(8, 'Pizza Hawaiana', 'Disfruta de nuestra polemica pero irresistible pizza Hawaiana, con salsa de tomate, mozzarella, jugoso jamón y trozos de piña. La combinación de sabores salados y dulces te transportara a la costa tropical.', 15.99),
-(8, 'Pizza Capricciosa', 'Explora los sabores autenticos de Italia con nuestra pizza Capricciosa. Cubierta con salsa de tomate, mozzarella, jamón, champiñones y aceitunas, cada porción es un festin de ingredientes frescos y sabores equilibrados.', 17.99),
-(8, 'Pizza Prosciutto e Funghi', 'Prueba nuestra deliciosa pizza Prosciutto e Funghi, con salsa de tomate, mozzarella, lonchas de jamón y champiñones frescos. Cada bocado te transportara a la autentica experiencia de la cocina italiana.', 16.99),
-(8, 'Calzone', 'Disfruta de un giro emocionante con nuestro calzone, una pizza en forma de empanada rellena de mozzarella, jamón y champiñones. Cada mordisco es una explosión de sabores en un paquete deliciosamente crujiente.', 18.99),
+(8, 'Pizza Hawaiana', 'Disfruta de nuestra polemica pero irresistible pizza Hawaiana, con salsa de tomate, mozzarella, jugoso jamon y trozos de piña. La combinacion de sabores salados y dulces te transportara a la costa tropical.', 15.99),
+(8, 'Pizza Capricciosa', 'Explora los sabores autenticos de Italia con nuestra pizza Capricciosa. Cubierta con salsa de tomate, mozzarella, jamon, champiñones y aceitunas, cada porcion es un festin de ingredientes frescos y sabores equilibrados.', 17.99),
+(8, 'Pizza Prosciutto e Funghi', 'Prueba nuestra deliciosa pizza Prosciutto e Funghi, con salsa de tomate, mozzarella, lonchas de jamon y champiñones frescos. Cada bocado te transportara a la autentica experiencia de la cocina italiana.', 16.99),
+(8, 'Calzone', 'Disfruta de un giro emocionante con nuestro calzone, una pizza en forma de empanada rellena de mozzarella, jamon y champiñones. Cada mordisco es una explosion de sabores en un paquete deliciosamente crujiente.', 18.99),
 (8, 'Lasagna', 'Sumergete en las capas de sabor con nuestra lasagna casera. Pasta horneada en capas con carne, queso y salsa de tomate, creando un plato reconfortante que deleitara a tus papilas gustativas.', 19.99),
-(8, 'Ravioli di Spinaci e Ricotta', 'Descubre la perfección de nuestros raviolis caseros rellenos de espinacas y ricotta, acompañados de una deliciosa salsa de tomate. Cada bocado es una combinación de suavidad, frescura y sabores italianos autenticos.', 17.99),
+(8, 'Ravioli di Spinaci e Ricotta', 'Descubre la perfeccion de nuestros raviolis caseros rellenos de espinacas y ricotta, acompañados de una deliciosa salsa de tomate. Cada bocado es una combinacion de suavidad, frescura y sabores italianos autenticos.', 17.99),
 (8, 'Tiramisu', 'Termina tu comida con nuestro clasico tiramisu italiano. Capas de bizcocho empapado en cafe y crema de mascarpone, creando una mezcla irresistible de texturas y sabores que te transportaran a la dulzura de Italia.', 9.99),
 (8, 'Gelato', 'No puedes perderte nuestro helado italiano artesanal en una variedad de sabores exquisitos. Desde los clasicos como vainilla y chocolate hasta opciones mas audaces como pistacho y fresa, cada cucharada es una experiencia refrescante y deliciosa.', 7.99);
 
 INSERT INTO product (restaurant_id, name, description, price)
 VALUES
-(9, 'Salmón Teriyaki', 'Disfruta de nuestro exquisito salmón a la parrilla con salsa teriyaki y verduras frescas. Cada bocado es una combinación de sabores delicados y jugosos que te transportaran a la cocina asiatica.', 23.99),
-(9, 'Filete Mignon', 'Degusta nuestro filete mignon, un corte de ternera de primera calidad a la parrilla acompañado de una guarnición de tu elección. Cada porción es tierna, jugosa y llena de sabor.', 27.99),
-(9, 'Risotto de Champiñones', 'Sumergete en la cremosidad de nuestro risotto de champiñones, elaborado con arroz al dente, champiñones frescos y queso parmesano. Cada cucharada es una explosión de sabores y texturas.', 18.99),
-(9, 'Ensalada Caprese', 'Refresca tu paladar con nuestra ensalada Caprese, compuesta por tomates jugosos, mozzarella fresca y hojas de albahaca, todo aderezado con un toque de vinagre balsamico. Una combinación simple pero deliciosa.', 14.99),
-(9, 'Carpaccio de Res', 'Deleitate con nuestro carpaccio de res, finas laminas de carne de res marinadas en aceite de oliva y limón, acompañadas de ingredientes frescos y sabrosos. Una opción ligera pero llena de sabor.', 16.99),
-(9, 'Cordero al Horno', 'Saborea nuestra pierna de cordero asada al horno con hierbas y especias, que se derrite en tu boca con cada bocado. Una opción de lujo para los amantes de la carne.', 25.99),
-(9, 'Tarta de Chocolate', 'Termina tu experiencia gastronómica con nuestra deliciosa tarta de chocolate, cubierta con ganache de chocolate y decorada con frutas frescas. Cada porción es un placer para los amantes del chocolate.', 11.99),
+(9, 'Salmon Teriyaki', 'Disfruta de nuestro exquisito salmon a la parrilla con salsa teriyaki y verduras frescas. Cada bocado es una combinacion de sabores delicados y jugosos que te transportaran a la cocina asiatica.', 23.99),
+(9, 'Filete Mignon', 'Degusta nuestro filete mignon, un corte de ternera de primera calidad a la parrilla acompañado de una guarnicion de tu eleccion. Cada porcion es tierna, jugosa y llena de sabor.', 27.99),
+(9, 'Risotto de Champiñones', 'Sumergete en la cremosidad de nuestro risotto de champiñones, elaborado con arroz al dente, champiñones frescos y queso parmesano. Cada cucharada es una explosion de sabores y texturas.', 18.99),
+(9, 'Ensalada Caprese', 'Refresca tu paladar con nuestra ensalada Caprese, compuesta por tomates jugosos, mozzarella fresca y hojas de albahaca, todo aderezado con un toque de vinagre balsamico. Una combinacion simple pero deliciosa.', 14.99),
+(9, 'Carpaccio de Res', 'Deleitate con nuestro carpaccio de res, finas laminas de carne de res marinadas en aceite de oliva y limon, acompañadas de ingredientes frescos y sabrosos. Una opcion ligera pero llena de sabor.', 16.99),
+(9, 'Cordero al Horno', 'Saborea nuestra pierna de cordero asada al horno con hierbas y especias, que se derrite en tu boca con cada bocado. Una opcion de lujo para los amantes de la carne.', 25.99),
+(9, 'Tarta de Chocolate', 'Termina tu experiencia gastronomica con nuestra deliciosa tarta de chocolate, cubierta con ganache de chocolate y decorada con frutas frescas. Cada porcion es un placer para los amantes del chocolate.', 11.99),
 (9, 'Crema de Calabaza', 'Disfruta de una crema suave y reconfortante de calabaza, con crujientes de panceta que añaden un contraste de texturas. Perfecta para calentar el alma en cualquier epoca del año.', 10.99),
 (9, 'Gazpacho Andaluz', 'Refresca tu paladar con nuestro gazpacho andaluz, una sopa fria a base de tomate, pepino, pimiento y ajo. Cada cucharada te transportara a los sabores mediterraneos de España.', 9.99),
-(9, 'Mousse de Mango', 'Finaliza tu comida con nuestro mousse de mango, un postre ligero y refrescante que combina la suavidad del mango con una textura aireada. Cada cucharada es una explosión de sabor tropical.', 8.99);
+(9, 'Mousse de Mango', 'Finaliza tu comida con nuestro mousse de mango, un postre ligero y refrescante que combina la suavidad del mango con una textura aireada. Cada cucharada es una explosion de sabor tropical.', 8.99);
 
 
 INSERT INTO product (restaurant_id, name, description, price)
 VALUES
-(10, 'Fabada Asturiana', 'Disfruta de nuestro delicioso guiso de alubias blancas con chorizo y panceta, un plato tradicional de la región de Asturias en España. Cada cucharada es una explosión de sabores reconfortantes.', 16.99),
-(10, 'Chuletón de Ternera', 'Prueba nuestro generoso chuletón de ternera a la parrilla, jugoso y lleno de sabor. Cada bocado es una experiencia carnivora que satisfara tu apetito.', 29.99),
-(10, 'Pulpo a Feira', 'Disfruta de nuestro pulpo a feira, una receta clasica de pulpo cocido con aceite de oliva, pimentón y patatas. Cada tentaculo es tierno y se deshace en tu boca.', 21.99),
-(10, 'Croquetas de Jamón', 'Prueba nuestras cremosas croquetas rellenas de jamón iberico, crujientes por fuera y suaves por dentro. Cada bocado es una explosión de sabor y textura.', 12.99),
-(10, 'Tortilla Española', 'Saborea nuestra clasica tortilla española, elaborada con patatas, cebolla y huevo. Cada porción es un deleite para los amantes de los platos tradicionales españoles.', 13.99),
+(10, 'Fabada Asturiana', 'Disfruta de nuestro delicioso guiso de alubias blancas con chorizo y panceta, un plato tradicional de la region de Asturias en España. Cada cucharada es una explosion de sabores reconfortantes.', 16.99),
+(10, 'Chuleton de Ternera', 'Prueba nuestro generoso chuleton de ternera a la parrilla, jugoso y lleno de sabor. Cada bocado es una experiencia carnivora que satisfara tu apetito.', 29.99),
+(10, 'Pulpo a Feira', 'Disfruta de nuestro pulpo a feira, una receta clasica de pulpo cocido con aceite de oliva, pimenton y patatas. Cada tentaculo es tierno y se deshace en tu boca.', 21.99),
+(10, 'Croquetas de Jamon', 'Prueba nuestras cremosas croquetas rellenas de jamon iberico, crujientes por fuera y suaves por dentro. Cada bocado es una explosion de sabor y textura.', 12.99),
+(10, 'Tortilla Española', 'Saborea nuestra clasica tortilla española, elaborada con patatas, cebolla y huevo. Cada porcion es un deleite para los amantes de los platos tradicionales españoles.', 13.99),
 (10, 'Gambas al Ajillo', 'Degusta nuestras gambas salteadas en aceite de oliva con ajo y guindilla, un clasico de la cocina española. Cada langostino esta impregnado de sabores intensos y picantes.', 16.99),
-(10, 'Patatas Bravas', 'Disfruta de nuestras patatas fritas acompañadas de salsa brava picante y alioli, una combinación irresistible. Cada bocado es crujiente por fuera y tierno por dentro.', 9.99),
+(10, 'Patatas Bravas', 'Disfruta de nuestras patatas fritas acompañadas de salsa brava picante y alioli, una combinacion irresistible. Cada bocado es crujiente por fuera y tierno por dentro.', 9.99),
 (10, 'Flan Casero', 'Prueba nuestro delicioso flan casero con caramelo liquido, un postre clasico que terminara tu comida con dulzura. Cada cucharada es suave, cremosa y llena de sabor.', 7.99),
-(10, 'Queso Manchego', 'Degusta nuestro queso manchego curado de oveja, un queso español de alta calidad con un sabor y textura unicos. Cada porción es una muestra del rico patrimonio quesero de España.', 10.99),
-(10, 'Tarta de Santiago', 'Disfruta de nuestra tradicional tarta de Santiago, una deliciosa tarta de almendras tipica de la ciudad de Santiago de Compostela. Cada porción es un homenaje a la reposteria gallega.', 11.99);
+(10, 'Queso Manchego', 'Degusta nuestro queso manchego curado de oveja, un queso español de alta calidad con un sabor y textura unicos. Cada porcion es una muestra del rico patrimonio quesero de España.', 10.99),
+(10, 'Tarta de Santiago', 'Disfruta de nuestra tradicional tarta de Santiago, una deliciosa tarta de almendras tipica de la ciudad de Santiago de Compostela. Cada porcion es un homenaje a la reposteria gallega.', 11.99);
 
 INSERT INTO product (restaurant_id, name, description, price)
 VALUES
-(11, 'Filete de Res en Salsa de Vino Tinto', 'Disfruta de nuestro tierno filete de res bañado en una deliciosa salsa de vino tinto. Cada bocado es una explosión de sabores intensos y jugosos.', 26.99),
-(11, 'Pechuga de Pollo Rellena', 'Degusta nuestra pechuga de pollo rellena de espinacas y queso, acompañada de pure de papas. Cada porción es una combinación de sabores suaves y texturas reconfortantes.', 22.99),
-(11, 'Risotto de Mariscos', 'Saborea nuestro arroz cremoso con una selección de mariscos frescos. Cada cucharada es una mezcla de sabores del mar que te transportara a las costas mediterraneas.', 24.99),
-(11, 'Ensalada Cesar', 'Prueba nuestra ensalada clasica con pollo a la parrilla, croutones y aderezo Cesar. Cada bocado es una explosión de frescura y sabores equilibrados.', 16.99),
-(11, 'Ceviche Mixto', 'Disfruta de nuestra mezcla de pescado y mariscos marinados en limón con cebolla y aji. Cada cucharada es una combinación de sabores citricos y marinos que deleitaran tu paladar.', 18.99),
-(11, 'Rabo de Toro Estofado', 'Prueba nuestro delicioso estofado de rabo de toro con verduras y vino tinto. Cada porción es una muestra de la cocina tradicional y sabrosa de nuestra región.', 28.99),
-(11, 'Tarta Tatin', 'Disfruta de nuestra tarta invertida de manzanas caramelizadas con masa hojaldrada. Cada porción es una combinación perfecta de dulzura y textura crujiente.', 13.99),
+(11, 'Filete de Res en Salsa de Vino Tinto', 'Disfruta de nuestro tierno filete de res bañado en una deliciosa salsa de vino tinto. Cada bocado es una explosion de sabores intensos y jugosos.', 26.99),
+(11, 'Pechuga de Pollo Rellena', 'Degusta nuestra pechuga de pollo rellena de espinacas y queso, acompañada de pure de papas. Cada porcion es una combinacion de sabores suaves y texturas reconfortantes.', 22.99),
+(11, 'Risotto de Mariscos', 'Saborea nuestro arroz cremoso con una seleccion de mariscos frescos. Cada cucharada es una mezcla de sabores del mar que te transportara a las costas mediterraneas.', 24.99),
+(11, 'Ensalada Cesar', 'Prueba nuestra ensalada clasica con pollo a la parrilla, croutones y aderezo Cesar. Cada bocado es una explosion de frescura y sabores equilibrados.', 16.99),
+(11, 'Ceviche Mixto', 'Disfruta de nuestra mezcla de pescado y mariscos marinados en limon con cebolla y aji. Cada cucharada es una combinacion de sabores citricos y marinos que deleitaran tu paladar.', 18.99),
+(11, 'Rabo de Toro Estofado', 'Prueba nuestro delicioso estofado de rabo de toro con verduras y vino tinto. Cada porcion es una muestra de la cocina tradicional y sabrosa de nuestra region.', 28.99),
+(11, 'Tarta Tatin', 'Disfruta de nuestra tarta invertida de manzanas caramelizadas con masa hojaldrada. Cada porcion es una combinacion perfecta de dulzura y textura crujiente.', 13.99),
 (11, 'Sopa de Cebolla', 'Saborea nuestra sopa de cebolla gratinada con queso fundido. Cada cucharada es reconfortante y llena de sabores profundos.', 11.99),
-(11, 'Pure de Zanahoria y Jengibre', 'Degusta nuestro pure suave de zanahoria y jengibre con especias. Cada cucharada es una explosión de sabores frescos y saludables.', 9.99),
+(11, 'Pure de Zanahoria y Jengibre', 'Degusta nuestro pure suave de zanahoria y jengibre con especias. Cada cucharada es una explosion de sabores frescos y saludables.', 9.99),
 (11, 'Mousse de Frambuesa', 'Prueba nuestro postre ligero y cremoso de mousse de frambuesa. Cada cucharada es refrescante y llena de sabor a frutas.', 8.99);
 INSERT INTO product (restaurant_id, name, description, price)
 VALUES
 (12, 'Bife de Chorizo', 'Disfruta de nuestro jugoso bife de chorizo a la parrilla con chimichurri. Cada corte es tierno y lleno de sabor.', 25.99),
 (12, 'Asado de Tira', 'Saborea nuestras tiernas costillas de res asadas a la parrilla. Cada bocado es una experiencia carnivora unica.', 27.99),
-(12, 'Matambre a la Pizza', 'Prueba nuestro matambre relleno con salsa de tomate, mozzarella y los ingredientes de tu elección. Cada porción es un festin de sabores y texturas.', 23.99),
+(12, 'Matambre a la Pizza', 'Prueba nuestro matambre relleno con salsa de tomate, mozzarella y los ingredientes de tu eleccion. Cada porcion es un festin de sabores y texturas.', 23.99),
 (12, 'Empanadas Argentinas', 'Degusta nuestras empanadas caseras de carne, pollo o verduras. Cada una esta hecha con masa crujiente y un relleno jugoso y sabroso.', 10.99),
-(12, 'Parrillada Mixta', 'Disfruta de nuestra selección de carnes a la parrilla: chorizo, morcilla, churrasco, pollo y cerdo. Cada porción es un festin para los amantes de la carne.', 29.99),
+(12, 'Parrillada Mixta', 'Disfruta de nuestra seleccion de carnes a la parrilla: chorizo, morcilla, churrasco, pollo y cerdo. Cada porcion es un festin para los amantes de la carne.', 29.99),
 (12, 'Ensalada Criolla', 'Prueba nuestra ensalada tradicional argentina con tomate, cebolla y pimientos. Cada bocado es fresco y lleno de sabores vibrantes.', 12.99),
-(12, 'Provoleta', 'Degusta nuestro queso provolone a la parrilla con especias y aceite de oliva. Cada porción es un derroche de sabores intensos y cremosidad.', 14.99),
+(12, 'Provoleta', 'Degusta nuestro queso provolone a la parrilla con especias y aceite de oliva. Cada porcion es un derroche de sabores intensos y cremosidad.', 14.99),
 (12, 'Helado de Dulce de Leche', 'Prueba nuestro clasico helado argentino de dulce de leche. Cada cucharada es suave, dulce y llena de indulgencia.', 8.99),
-(12, 'Mollejas a la Parrilla', 'Saborea nuestras mollejas de ternera a la parrilla con limón y sal gruesa. Cada bocado es tierno y lleno de sabor.', 19.99),
-(12, 'Alfajores', 'Degusta nuestros dulces tipicos argentinos: dos galletas rellenas de dulce de leche y cubiertas de chocolate. Cada bocado es una combinación perfecta de texturas y dulzura.', 9.99);
+(12, 'Mollejas a la Parrilla', 'Saborea nuestras mollejas de ternera a la parrilla con limon y sal gruesa. Cada bocado es tierno y lleno de sabor.', 19.99),
+(12, 'Alfajores', 'Degusta nuestros dulces tipicos argentinos: dos galletas rellenas de dulce de leche y cubiertas de chocolate. Cada bocado es una combinacion perfecta de texturas y dulzura.', 9.99);
 
 
 INSERT INTO product (restaurant_id, name, description, price)
 VALUES
 (13, 'Filet Mignon', 'Disfruta de nuestro exquisito filete mignon con salsa de champiñones. Cada corte es tierno y jugoso, y la salsa complementa perfectamente los sabores.', 28.99),
-(13, 'Ratatouille', 'Prueba nuestro plato vegetariano de ratatouille con berenjena, calabacin, pimientos y tomate al horno. Cada porción es una explosión de sabores y texturas.', 16.99),
+(13, 'Ratatouille', 'Prueba nuestro plato vegetariano de ratatouille con berenjena, calabacin, pimientos y tomate al horno. Cada porcion es una explosion de sabores y texturas.', 16.99),
 (13, 'Sopa de Calabaza', 'Deleitate con nuestra sopa cremosa de calabaza con un toque de jengibre. Cada cucharada es reconfortante y llena de sabores calidos.', 11.99),
 (13, 'Ensalada Caprese', 'Prueba nuestra clasica ensalada italiana Caprese con tomate, mozzarella y albahaca. Cada bocado es fresco y lleno de sabores mediterraneos.', 14.99),
 (13, 'Risotto de Hongos', 'Disfruta de nuestro risotto cremoso con una variedad de hongos frescos. Cada cucharada es reconfortante y llena de sabores terrosos.', 22.99),
-(13, 'Tarta de Espinacas y Queso de Cabra', 'Degusta nuestra deliciosa tarta salada con espinacas, queso de cabra y cebolla caramelizada. Cada porción es una combinación perfecta de sabores salados y dulces.', 19.99),
+(13, 'Tarta de Espinacas y Queso de Cabra', 'Degusta nuestra deliciosa tarta salada con espinacas, queso de cabra y cebolla caramelizada. Cada porcion es una combinacion perfecta de sabores salados y dulces.', 19.99),
 (13, 'Crema Catalana', 'Prueba nuestro postre tradicional español similar al crème brûlee. Cada cucharada de nuestra crema catalana es suave, cremosa y llena de sabores a caramelo y citricos.', 10.99);
  
 
 INSERT INTO product (restaurant_id, name, description, price)
 VALUES
 (14, 'Pad Thai', 'Disfruta del famoso plato tailandes de fideos de arroz salteados con pollo, camarones o tofu. Cada bocado esta lleno de sabores autenticos y especias exquisitas.', 17.99),
-(14, 'Curry de Coco', 'Prueba nuestro delicioso curry tailandes con leche de coco, pollo, verduras y especias. Cada cucharada es una explosión de sabores picantes y cremosos.', 19.99),
-(14, 'Sushi Variado', 'Disfruta de una variedad de sushi que incluye nigiri, maki y sashimi. Cada pieza esta hecha con los ingredientes mas frescos y presenta una combinación perfecta de sabores.', 24.99),
+(14, 'Curry de Coco', 'Prueba nuestro delicioso curry tailandes con leche de coco, pollo, verduras y especias. Cada cucharada es una explosion de sabores picantes y cremosos.', 19.99),
+(14, 'Sushi Variado', 'Disfruta de una variedad de sushi que incluye nigiri, maki y sashimi. Cada pieza esta hecha con los ingredientes mas frescos y presenta una combinacion perfecta de sabores.', 24.99),
 (14, 'Rollitos de Primavera', 'Degusta nuestros deliciosos rollitos de primavera rellenos de vegetales y carne, acompañados de salsa agridulce. Cada bocado es crujiente y lleno de sabores deliciosos.', 12.99),
-(14, 'Tom Kha Gai', 'Prueba nuestra autentica sopa tailandesa de coco con pollo y hierbas aromaticas. Cada cucharada es reconfortante y esta llena de sabores equilibrados y exóticos.', 15.99);
+(14, 'Tom Kha Gai', 'Prueba nuestra autentica sopa tailandesa de coco con pollo y hierbas aromaticas. Cada cucharada es reconfortante y esta llena de sabores equilibrados y exoticos.', 15.99);
 INSERT INTO product (restaurant_id, name, description, price)
 VALUES
 (15, 'Lasagna de Carne', 'Prueba nuestra deliciosa lasagna casera con carne, pasta y salsa de tomate. Cada capa esta llena de sabores reconfortantes y autenticos.', 14.99),
 (15, 'Milanesa Napolitana', 'Disfruta de nuestra milanesa de ternera empanizada cubierta con salsa de tomate y queso. Cada bocado es crujiente por fuera y tierno por dentro.', 17.99),
 (15, 'Pollo al Horno', 'Saborea nuestro pollo jugoso asado al horno con hierbas y especias. Cada pieza esta llena de sabor y se derrite en tu boca.', 16.99),
 (15, 'Guiso de Lentejas', 'Prueba nuestro guiso tradicional de lentejas con chorizo y verduras. Cada cucharada te brinda una experiencia reconfortante y llena de sabor.', 12.99),
-(15, 'Ensalada de Pollo', 'Disfruta de nuestra ensalada fresca con pollo a la parrilla, vegetales y aderezo de tu elección. Cada bocado es saludable y sabroso.', 13.99),
-(15, 'Tarta de Verduras', 'Degusta nuestra deliciosa tarta salada de verduras mixtas con masa quebrada. Cada porción es una combinación perfecta de sabores y texturas.', 11.99),
+(15, 'Ensalada de Pollo', 'Disfruta de nuestra ensalada fresca con pollo a la parrilla, vegetales y aderezo de tu eleccion. Cada bocado es saludable y sabroso.', 13.99),
+(15, 'Tarta de Verduras', 'Degusta nuestra deliciosa tarta salada de verduras mixtas con masa quebrada. Cada porcion es una combinacion perfecta de sabores y texturas.', 11.99),
 (15, 'Arroz con Leche', 'Endulza tu paladar con nuestro postre cremoso de arroz con leche, canela y azucar. Cada cucharada es un deleite reconfortante.', 8.99),
 (15, 'Pure de Papa', 'Prueba nuestro pure suave y cremoso de papas. Cada cucharada es reconfortante y se derrite en tu boca.', 7.99),
 (15, 'Ensalada de Frutas', 'Refresca tu paladar con nuestra ensalada de frutas frescas. Cada bocado es jugoso y lleno de sabores naturales.', 9.99);
@@ -467,49 +479,49 @@ INSERT INTO product (restaurant_id, name, description, price)
 VALUES
 (16, 'Hamburguesa Clasica', 'Deleitate con nuestra jugosa hamburguesa de carne de res, lechuga, tomate y aderezo especial. ¡Un clasico irresistible!', 12.99),
 (16, 'Fish and Chips', 'Prueba nuestro clasico plato ingles de pescado rebozado y papas fritas. Cada bocado es crujiente y lleno de sabor.', 14.99),
-(16, 'Alitas de Pollo', 'Disfruta de nuestras alitas de pollo marinadas y fritas, con salsa a elección. Cada alita es sabrosa y jugosa.', 10.99),
+(16, 'Alitas de Pollo', 'Disfruta de nuestras alitas de pollo marinadas y fritas, con salsa a eleccion. Cada alita es sabrosa y jugosa.', 10.99),
 (16, 'Nachos con Queso', 'Satisface tus antojos con nuestros nachos crujientes cubiertos de queso derretido, jalapeños y guacamole. ¡El acompañamiento perfecto para compartir!', 9.99),
-(16, 'Ensalada Cesar', 'Disfruta de nuestra ensalada clasica con pollo a la parrilla, croutones y aderezo Cesar. Una combinación fresca y deliciosa.', 13.99),
-(16, 'Sandwich de Pastrami', 'Prueba nuestro sabroso sandwich relleno de pastrami, pepinillos y mostaza. Cada bocado es una explosión de sabores.', 11.99),
-(16, 'Cheesecake de Frutos Rojos', 'Endulza tu paladar con nuestro cheesecake cremoso con salsa de frutos rojos. Cada porción es suave y deliciosa.', 8.99),
+(16, 'Ensalada Cesar', 'Disfruta de nuestra ensalada clasica con pollo a la parrilla, croutones y aderezo Cesar. Una combinacion fresca y deliciosa.', 13.99),
+(16, 'Sandwich de Pastrami', 'Prueba nuestro sabroso sandwich relleno de pastrami, pepinillos y mostaza. Cada bocado es una explosion de sabores.', 11.99),
+(16, 'Cheesecake de Frutos Rojos', 'Endulza tu paladar con nuestro cheesecake cremoso con salsa de frutos rojos. Cada porcion es suave y deliciosa.', 8.99),
 (16, 'Papas Fritas', 'Degusta nuestras papas fritas doradas y crujientes. El acompañamiento perfecto para cualquier plato.', 6.99),
 (16, 'Cerveza Artesanal', 'Descubre nuestra variedad de cervezas artesanales para disfrutar. Cada sorbo es una experiencia unica y refrescante.', 7.99);
 
 INSERT INTO product (restaurant_id, name, description, price)
 VALUES
-(17, 'Paella Valenciana', 'Disfruta de nuestro plato tradicional español de arroz con mariscos, pollo y verduras. Una explosión de sabores mediterraneos.', 25.99),
+(17, 'Paella Valenciana', 'Disfruta de nuestro plato tradicional español de arroz con mariscos, pollo y verduras. Una explosion de sabores mediterraneos.', 25.99),
 (17, 'Gazpacho', 'Refrescante sopa fria de tomate, pepino, pimiento y aceite de oliva. Perfecta para los dias calurosos.', 11.99),
 (17, 'Lomo de Cerdo al Horno', 'Prueba nuestro jugoso lomo de cerdo asado al horno con hierbas mediterraneas. Una delicia para el paladar.', 18.99),
 (17, 'Ensalada Griega', 'Disfruta de nuestra ensalada fresca con tomate, pepino, cebolla, aceitunas y queso feta. Un clasico de la cocina griega.', 14.99),
-(17, 'Moussaka', 'Degusta nuestro plato griego de berenjena, carne picada y salsa bechamel gratinada. Una combinación irresistible.', 19.99),
+(17, 'Moussaka', 'Degusta nuestro plato griego de berenjena, carne picada y salsa bechamel gratinada. Una combinacion irresistible.', 19.99),
 (17, 'Tzatziki', 'Prueba nuestra salsa griega a base de yogur, pepino, ajo y hierbas frescas. El complemento perfecto para tus platos.', 7.99),
 (17, 'Baklava', 'Endulza tu paladar con nuestro dulce tradicional griego hecho con nueces y hojaldre bañado en almibar. Una exquisitez.', 9.99),
-(17, 'Tabbouleh', 'Disfruta de nuestra ensalada de bulgur, perejil, menta, tomate y limón. Una opción refrescante y llena de sabor.', 12.99),
-(17, 'Pita Gyro', 'Saborea nuestro delicioso sandwich griego relleno de carne de cerdo asada, tzatziki y vegetales. Una explosión de sabores.', 16.99);
+(17, 'Tabbouleh', 'Disfruta de nuestra ensalada de bulgur, perejil, menta, tomate y limon. Una opcion refrescante y llena de sabor.', 12.99),
+(17, 'Pita Gyro', 'Saborea nuestro delicioso sandwich griego relleno de carne de cerdo asada, tzatziki y vegetales. Una explosion de sabores.', 16.99);
 
 INSERT INTO product (restaurant_id, name, description, price)
 VALUES
 (18, 'Asado de Tira', 'Disfruta de nuestro delicioso corte de carne de res asado a la parrilla. Nuestro asado de tira se prepara con esmero, utilizando los mejores cortes de carne de res seleccionada. Cada bocado es jugoso, tierno y lleno de sabor, con ese inconfundible aroma a parrilla que te transportara a los autenticos asados argentinos. Acompañado de guarniciones y aderezos que realzan su sabor, nuestro asado de tira es una experiencia culinaria que no puedes perderte. ¡Ven y disfrutalo con nosotros!', 29.99),
-(18, 'Choripan', 'Prueba nuestro clasico sandwich argentino con chorizo a la parrilla. El choripan es una verdadera delicia que combina la intensidad y jugosidad del chorizo argentino con el pan recien horneado. Nuestro chorizo se elabora con una mezcla de carnes seleccionadas y especias tradicionales, y se cocina a la perfección en nuestra parrilla para lograr ese sabor irresistible. Acompañado de aderezos y salsas caseras, el choripan es el bocadillo ideal para satisfacer tus antojos. ¡Ven y pruebalo!', 12.99),
-(18, 'Empanadas', 'Deleitate con nuestras empanadas argentinas rellenas de carne, pollo o verduras. Cada empanada se elabora cuidadosamente a mano, utilizando masa casera y rellenos de alta calidad. Nuestra empanada de carne esta hecha con un jugoso relleno de carne de res sazonada con especias tradicionales. La empanada de pollo combina tierna carne de pollo con sabrosas verduras, y la empanada de verduras te sorprendera con una mezcla de vegetales frescos y sabrosos condimentos. Cada bocado es una explosión de sabores y texturas que te transportara a la autentica cocina argentina. ¡No te las pierdas!', 9.99),
-(18, 'Provoleta', 'Saborea nuestro queso provolone asado a la parrilla con aceite de oliva y especias. La provoleta es un plato emblematico de la cocina argentina que destaca por su sabor intenso y su textura suave y cremosa. Utilizamos queso provolone de calidad y lo asamos a la parrilla hasta que se derrite y adquiere un delicado sabor ahumado. Luego, lo rociamos con aceite de oliva y especias que realzan su sabor y aroma. Cada porción de provoleta es un deleite para los amantes del queso y una excelente opción para comenzar una comida o disfrutar como aperitivo. ¡Ven y prueba nuestra exquisita provoleta!', 16.99),
-(18, 'Mollejas', 'Disfruta de nuestras mollejas de ternera a la parrilla con limón y sal. Las mollejas son un manjar muy apreciado en la cocina argentina y te invitamos a descubrir su delicioso sabor en nuestro restaurante. Nuestras mollejas se seleccionan cuidadosamente, se marinan con hierbas y especias, y se asan a la parrilla hasta obtener una textura tierna por dentro y crujiente por fuera. Les añadimos el toque fresco del limón y la pizca de sal que realza su sabor unico. Si eres amante de los sabores intensos y las texturas irresistibles, las mollejas son una elección perfecta. ¡Ven y deleitate con nuestras mollejas!', 19.99),
-(18, 'Papas Provenzal', 'Degusta nuestras papas fritas condimentadas con ajo y perejil. Nuestras papas provenzal son el acompañamiento perfecto para cualquier plato. Utilizamos papas de calidad, las cortamos en finas rodajas y las freimos hasta obtener una textura dorada y crujiente. Luego, les añadimos una mezcla de ajo y perejil fresco que les otorga un sabor aromatico y delicioso. Ya sea como guarnición o como aperitivo, nuestras papas provenzal son irresistibles y complementan a la perfección nuestros platos principales. ¡Ven y disfruta de nuestras papas provenzal!', 7.99),
-(18, 'Tiramisu', 'Endulza tu paladar con nuestro postre italiano de capas de bizcocho, cafe y crema de mascarpone. El tiramisu es un clasico de la cocina italiana y en nuestro restaurante te ofrecemos una versión excepcional. Preparamos nuestro tiramisu con ingredientes de calidad, desde el bizcocho empapado en cafe hasta la cremosa capa de mascarpone y cacao en polvo que lo corona. Cada cucharada es una explosión de sabores y texturas que te transportara a Italia. Si eres amante de los postres, no puedes dejar de probar nuestro delicioso tiramisu. ¡Te encantara!', 10.99),
-(18, 'Ensalada Mixta', 'Disfruta de nuestra ensalada fresca con lechuga, tomate, cebolla y aceitunas. Nuestra ensalada mixta es una opción saludable y sabrosa para aquellos que desean comer ligero sin renunciar al sabor. Utilizamos ingredientes frescos y de calidad, combinados con un aderezo ligero que realza los sabores naturales de los vegetales. La lechuga crujiente, los tomates jugosos, la cebolla picante y las aceitunas sabrosas se complementan a la perfección en esta ensalada clasica. Ya sea como acompañamiento o como plato principal, nuestra ensalada mixta te dejara satisfecho y satisfecha. ¡Ven y pruebala!', 8.99),
-(18, 'Helado de Dulce de Leche', 'Prueba nuestro delicioso helado de dulce de leche artesanal. Nuestro helado de dulce de leche esta elaborado con dedicación y cuidado, utilizando los mejores ingredientes y tecnicas tradicionales. Cada cucharada de nuestro helado te transportara a un mundo de sabores y texturas cremosas. El dulce de leche, con su rico sabor a caramelo, se combina a la perfección con la suavidad y frescura del helado. Si eres amante de los postres helados, no puedes dejar de probar nuestro irresistible helado de dulce de leche. ¡Te encantara!', 6.99);
+(18, 'Choripan', 'Prueba nuestro clasico sandwich argentino con chorizo a la parrilla. El choripan es una verdadera delicia que combina la intensidad y jugosidad del chorizo argentino con el pan recien horneado. Nuestro chorizo se elabora con una mezcla de carnes seleccionadas y especias tradicionales, y se cocina a la perfeccion en nuestra parrilla para lograr ese sabor irresistible. Acompañado de aderezos y salsas caseras, el choripan es el bocadillo ideal para satisfacer tus antojos. ¡Ven y pruebalo!', 12.99),
+(18, 'Empanadas', 'Deleitate con nuestras empanadas argentinas rellenas de carne, pollo o verduras. Cada empanada se elabora cuidadosamente a mano, utilizando masa casera y rellenos de alta calidad. Nuestra empanada de carne esta hecha con un jugoso relleno de carne de res sazonada con especias tradicionales. La empanada de pollo combina tierna carne de pollo con sabrosas verduras, y la empanada de verduras te sorprendera con una mezcla de vegetales frescos y sabrosos condimentos. Cada bocado es una explosion de sabores y texturas que te transportara a la autentica cocina argentina. ¡No te las pierdas!', 9.99),
+(18, 'Provoleta', 'Saborea nuestro queso provolone asado a la parrilla con aceite de oliva y especias. La provoleta es un plato emblematico de la cocina argentina que destaca por su sabor intenso y su textura suave y cremosa. Utilizamos queso provolone de calidad y lo asamos a la parrilla hasta que se derrite y adquiere un delicado sabor ahumado. Luego, lo rociamos con aceite de oliva y especias que realzan su sabor y aroma. Cada porcion de provoleta es un deleite para los amantes del queso y una excelente opcion para comenzar una comida o disfrutar como aperitivo. ¡Ven y prueba nuestra exquisita provoleta!', 16.99),
+(18, 'Mollejas', 'Disfruta de nuestras mollejas de ternera a la parrilla con limon y sal. Las mollejas son un manjar muy apreciado en la cocina argentina y te invitamos a descubrir su delicioso sabor en nuestro restaurante. Nuestras mollejas se seleccionan cuidadosamente, se marinan con hierbas y especias, y se asan a la parrilla hasta obtener una textura tierna por dentro y crujiente por fuera. Les añadimos el toque fresco del limon y la pizca de sal que realza su sabor unico. Si eres amante de los sabores intensos y las texturas irresistibles, las mollejas son una eleccion perfecta. ¡Ven y deleitate con nuestras mollejas!', 19.99),
+(18, 'Papas Provenzal', 'Degusta nuestras papas fritas condimentadas con ajo y perejil. Nuestras papas provenzal son el acompañamiento perfecto para cualquier plato. Utilizamos papas de calidad, las cortamos en finas rodajas y las freimos hasta obtener una textura dorada y crujiente. Luego, les añadimos una mezcla de ajo y perejil fresco que les otorga un sabor aromatico y delicioso. Ya sea como guarnicion o como aperitivo, nuestras papas provenzal son irresistibles y complementan a la perfeccion nuestros platos principales. ¡Ven y disfruta de nuestras papas provenzal!', 7.99),
+(18, 'Tiramisu', 'Endulza tu paladar con nuestro postre italiano de capas de bizcocho, cafe y crema de mascarpone. El tiramisu es un clasico de la cocina italiana y en nuestro restaurante te ofrecemos una version excepcional. Preparamos nuestro tiramisu con ingredientes de calidad, desde el bizcocho empapado en cafe hasta la cremosa capa de mascarpone y cacao en polvo que lo corona. Cada cucharada es una explosion de sabores y texturas que te transportara a Italia. Si eres amante de los postres, no puedes dejar de probar nuestro delicioso tiramisu. ¡Te encantara!', 10.99),
+(18, 'Ensalada Mixta', 'Disfruta de nuestra ensalada fresca con lechuga, tomate, cebolla y aceitunas. Nuestra ensalada mixta es una opcion saludable y sabrosa para aquellos que desean comer ligero sin renunciar al sabor. Utilizamos ingredientes frescos y de calidad, combinados con un aderezo ligero que realza los sabores naturales de los vegetales. La lechuga crujiente, los tomates jugosos, la cebolla picante y las aceitunas sabrosas se complementan a la perfeccion en esta ensalada clasica. Ya sea como acompañamiento o como plato principal, nuestra ensalada mixta te dejara satisfecho y satisfecha. ¡Ven y pruebala!', 8.99),
+(18, 'Helado de Dulce de Leche', 'Prueba nuestro delicioso helado de dulce de leche artesanal. Nuestro helado de dulce de leche esta elaborado con dedicacion y cuidado, utilizando los mejores ingredientes y tecnicas tradicionales. Cada cucharada de nuestro helado te transportara a un mundo de sabores y texturas cremosas. El dulce de leche, con su rico sabor a caramelo, se combina a la perfeccion con la suavidad y frescura del helado. Si eres amante de los postres helados, no puedes dejar de probar nuestro irresistible helado de dulce de leche. ¡Te encantara!', 6.99);
 INSERT INTO product (restaurant_id, name, description, price)
 VALUES
-(19, 'Carpaccio de Res', 'Deleitate con finas laminas de carne de res marinadas en aceite de oliva y acompañadas con queso parmesano. Este plato italiano es una deliciosa y elegante opción para comenzar tu comida.', 15.99),
-(19, 'Ceviche de Camarón', 'Disfruta de camarones frescos marinados en limón, cebolla y cilantro, que le dan un toque refrescante y picante a este plato peruano tradicional. Es una explosión de sabores marinos que te encantara.', 18.99),
-(19, 'Lomo Saltado', 'Prueba este sabroso plato peruano que combina trozos de lomo de res salteados con cebolla y tomate, sazonados con especias y servidos con arroz y papas fritas. Es una explosión de sabores y texturas que te transportara a la cocina peruana.', 21.99),
-(19, 'Causa Limeña', 'Deleitate con una deliciosa masa de papa amarilla suave y cremosa, rellena de pollo o mariscos, aliñada con limón y especias. Es un plato tradicional peruano que te sorprendera con su combinación unica de sabores.', 14.99),
-(19, 'Tiradito de Pescado', 'Prueba este plato peruano similar al ceviche, donde finas laminas de pescado fresco son marinadas en limón y cubiertas con una deliciosa salsa de aji amarillo. Es una explosión de sabores citricos y picantes que te encantara.', 19.99),
+(19, 'Carpaccio de Res', 'Deleitate con finas laminas de carne de res marinadas en aceite de oliva y acompañadas con queso parmesano. Este plato italiano es una deliciosa y elegante opcion para comenzar tu comida.', 15.99),
+(19, 'Ceviche de Camaron', 'Disfruta de camarones frescos marinados en limon, cebolla y cilantro, que le dan un toque refrescante y picante a este plato peruano tradicional. Es una explosion de sabores marinos que te encantara.', 18.99),
+(19, 'Lomo Saltado', 'Prueba este sabroso plato peruano que combina trozos de lomo de res salteados con cebolla y tomate, sazonados con especias y servidos con arroz y papas fritas. Es una explosion de sabores y texturas que te transportara a la cocina peruana.', 21.99),
+(19, 'Causa Limeña', 'Deleitate con una deliciosa masa de papa amarilla suave y cremosa, rellena de pollo o mariscos, aliñada con limon y especias. Es un plato tradicional peruano que te sorprendera con su combinacion unica de sabores.', 14.99),
+(19, 'Tiradito de Pescado', 'Prueba este plato peruano similar al ceviche, donde finas laminas de pescado fresco son marinadas en limon y cubiertas con una deliciosa salsa de aji amarillo. Es una explosion de sabores citricos y picantes que te encantara.', 19.99),
 (19, 'Suspiro Limeño', 'Date un capricho con este clasico postre peruano que combina leche condensada y merengue, creando una textura cremosa y dulce. Es el final perfecto para una comida peruana autentica.', 11.99),
-(19, 'Anticuchos', 'Disfruta de estas deliciosas brochetas de carne marinadas y asadas a la parrilla. Son un bocado sabroso y jugoso que refleja la tradición culinaria peruana.', 12.99),
-(19, 'Pisco Sour', 'Prueba el famoso cóctel peruano elaborado con pisco, limón, azucar y clara de huevo, que resulta en una bebida refrescante y llena de sabor. Es el acompañante perfecto para tu experiencia culinaria peruana.', 9.99),
+(19, 'Anticuchos', 'Disfruta de estas deliciosas brochetas de carne marinadas y asadas a la parrilla. Son un bocado sabroso y jugoso que refleja la tradicion culinaria peruana.', 12.99),
+(19, 'Pisco Sour', 'Prueba el famoso coctel peruano elaborado con pisco, limon, azucar y clara de huevo, que resulta en una bebida refrescante y llena de sabor. Es el acompañante perfecto para tu experiencia culinaria peruana.', 9.99),
 (19, 'Arroz con Mariscos', 'Deleitate con este sabroso arroz preparado con una variedad de mariscos frescos, como camarones, calamares y mejillones, sazonados con especias y hierbas aromaticas. Es un plato abundante y lleno de sabores marinos.', 23.99),
-(19, 'Papa a la Huancaina', 'Prueba esta deliciosa preparación peruana en la que las papas cocidas se sirven con una cremosa salsa de aji amarillo y queso fresco. Es un plato reconfortante y lleno de sabor.', 10.99);
+(19, 'Papa a la Huancaina', 'Prueba esta deliciosa preparacion peruana en la que las papas cocidas se sirven con una cremosa salsa de aji amarillo y queso fresco. Es un plato reconfortante y lleno de sabor.', 10.99);
  
  -- Direcciones adicionales para el usuario con ID 21
 INSERT INTO address (user_id, address, number, name, city, cp, address_name) VALUES
@@ -674,3 +686,170 @@ VALUES
 (20, '0123456789012345', '03/63', 'Emma Turner', 'Visa'),
 (21, '9876543210987654', '04/64', 'Emma Turner', 'Discover'),
 (21, '1234509876543210', '05/65', 'Liam Hill', 'Mastercard');
+
+
+
+-- Inserts para el restaurante con id 1
+INSERT INTO review (user_id, restaurant_id, content, created_at)
+VALUES
+  (1, 1, '¡Excelente comida y servicio! Definitivamente volvere.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (2, 1, 'Me encanto la variedad de platos disponibles. Recomiendo las hamburguesas.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (3, 1, 'El ambiente del restaurante es muy acogedor. Ideal para una cena romantica.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (4, 1, 'Pedi a domicilio y la entrega fue rapida. La comida llego caliente y bien empacada.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (5, 1, 'El personal fue amable y atento durante toda la visita.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY);
+
+-- Inserts para el restaurante con id 2
+INSERT INTO review (user_id, restaurant_id, content, created_at)
+VALUES
+  (6, 2, 'Muy buen lugar para disfrutar de la comida italiana. Las pastas son deliciosas.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (7, 2, 'Recomiendo probar la pizza de la casa. La masa es esponjosa y los ingredientes frescos.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (8, 2, 'La atencion al cliente es excepcional. Los meseros son muy amables y serviciales.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (9, 2, 'El restaurante tiene un ambiente familiar y acogedor. Ideal para ir con niños.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY);
+
+
+-- Inserts para el restaurante con id 3
+INSERT INTO review (user_id, restaurant_id, content, created_at)
+VALUES
+  (10, 3, 'Probe varios platos y todos estaban deliciosos. La presentacion es impecable.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (11, 3, 'El servicio fue rapido y eficiente. Los camareros estuvieron pendientes en todo momento.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (12, 3, 'Recomiendo reservar con anticipacion, especialmente los fines de semana.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (13, 3, 'El menu ofrece opciones vegetarianas y veganas. Muy buena alternativa para personas con dietas especiales.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY);
+
+-- Inserts para el restaurante con id 4
+INSERT INTO review (user_id, restaurant_id, content, created_at)
+VALUES
+  (14, 4, 'El lugar tiene una hermosa vista al mar. Ideal para disfrutar de una cena romantica.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (15, 4, 'La calidad de los mariscos es excelente. Recomiendo probar el ceviche.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (16, 4, 'El personal es amable y conocedor de los platos. Pueden brindar recomendaciones segun tus preferencias.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (17, 4, 'Los postres son una delicia. No te vayas sin probar el pastel de chocolate.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY);
+
+-- Inserts para el restaurante con id 5
+INSERT INTO review (user_id, restaurant_id, content, created_at)
+VALUES
+  (18, 5, 'Pedi comida a domicilio y llego en el tiempo estimado. Los platos estaban bien empacados.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (19, 5, 'La relacion calidad-precio es muy buena. Los precios son accesibles y la comida es sabrosa.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (20, 5, 'El ambiente del restaurante es animado y acogedor. Perfecto para ir con amigos.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (21, 5, 'El menu ofrece una gran variedad de opciones. Siempre encuentro algo que me gusta.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY);
+
+ -- Inserts para el restaurante con id 6
+INSERT INTO review (user_id, restaurant_id, content, created_at)
+VALUES
+  (1, 6, 'El lugar tiene una decoracion moderna y elegante. La atencion del personal fue excepcional.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (2, 6, 'Probe el menu degustacion y quede impresionado con cada plato. Una experiencia gastronomica unica.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (3, 6, 'El chef tiene un talento extraordinario. Cada plato es una obra de arte.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (4, 6, 'El precio es un poco elevado, pero vale la pena por la calidad de la comida y el servicio.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY);
+
+-- Inserts para el restaurante con id 7
+INSERT INTO review (user_id, restaurant_id, content, created_at)
+VALUES
+  (5, 7, 'El ambiente del restaurante es acogedor y relajante. Perfecto para disfrutar de una cena tranquila.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (6, 7, 'El menu ofrece opciones para todos los gustos. Incluso tienen platos sin gluten para personas con intolerancias.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (7, 7, 'El personal es amigable y servicial. Estan dispuestos a adaptar los platos segun tus preferencias.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (8, 7, 'El postre de la casa es simplemente delicioso. No te lo puedes perder.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY);
+
+-- Inserts para el restaurante con id 8
+INSERT INTO review (user_id, restaurant_id, content, created_at)
+VALUES
+  (9, 8, 'Pedi comida para llevar y llego caliente y bien empacada. Los sabores son autenticos.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (10, 8, 'El servicio de entrega fue rapido y puntual. No tuve que esperar mucho tiempo.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (11, 8, 'El menu incluye opciones vegetarianas y veganas. Es genial tener variedad para elegir.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (12, 8, 'Recomiendo probar los cocteles. Son deliciosos y estan cuidadosamente preparados.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY);
+
+-- Inserts para el restaurante con id 9
+INSERT INTO review (user_id, restaurant_id, content, created_at)
+VALUES
+  (13, 9, 'El lugar tiene una vista panoramica impresionante. Es ideal para ocasiones especiales.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (14, 9, 'Los platos son creativos y sorprendentes. El chef se esmera en ofrecer una experiencia culinaria unica.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (15, 9, 'La atencion al detalle en cada plato es admirable. La presentacion es impecable.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY),
+  (16, 9, 'El personal es atento y amable. Te hacen sentir bienvenido desde que llegas.', NOW() - INTERVAL FLOOR(RAND() * 90) DAY);
+
+-- Inserts para el restaurante con id 10
+INSERT INTO review (user_id, restaurant_id, content, created_at)
+VALUES
+  (1, 10, 'Excelente comida y servicio', NOW() - INTERVAL 3 DAY),
+  (2, 10, 'Buena relacion calidad-precio', NOW() - INTERVAL 2 DAY),
+  (3, 10, 'Ambiente agradable, recomendado', NOW() - INTERVAL 1 DAY),
+  (4, 10, 'Comida deliciosa, definitivamente regresare', NOW() - INTERVAL 4 DAY),
+  (5, 10, 'Buenas opciones vegetarianas', NOW() - INTERVAL 5 DAY);
+
+-- Inserts para el restaurante con id 11
+INSERT INTO review (user_id, restaurant_id, content, created_at)
+VALUES
+  (6, 11, 'El mejor lugar para comer pizza', NOW() - INTERVAL 2 DAY),
+  (7, 11, 'Servicio rapido y amable', NOW() - INTERVAL 1 DAY),
+  (8, 11, 'Pizza recien horneada y deliciosa', NOW() - INTERVAL 3 DAY),
+  (9, 11, 'Gran variedad de sabores', NOW() - INTERVAL 4 DAY),
+  (10, 11, 'Recomiendo probar la pizza de pepperoni', NOW() - INTERVAL 5 DAY);
+
+-- Inserts para el restaurante con id 12
+INSERT INTO review (user_id, restaurant_id, content, created_at)
+VALUES
+  (11, 12, 'Comida casera y autentica', NOW() - INTERVAL 1 DAY),
+  (12, 12, 'Platos abundantes y sabrosos', NOW() - INTERVAL 2 DAY),
+  (13, 12, 'Personal amable y atento', NOW() - INTERVAL 3 DAY),
+  (14, 12, 'Excelente opcion para una cena romantica', NOW() - INTERVAL 4 DAY),
+  (15, 12, 'Recomiendo probar el postre de tiramisu', NOW() - INTERVAL 5 DAY);
+
+-- Inserts para el restaurante con id 13
+INSERT INTO review (user_id, restaurant_id, content, created_at)
+VALUES
+  (16, 13, 'Gran seleccion de vinos', NOW() - INTERVAL 3 DAY),
+  (17, 13, 'Platos exquisitos y bien presentados', NOW() - INTERVAL 1 DAY),
+  (18, 13, 'Ambiente elegante y sofisticado', NOW() - INTERVAL 2 DAY),
+  (19, 13, 'Excelente atencion al cliente', NOW() - INTERVAL 4 DAY),
+  (20, 13, 'Ideal para ocasiones especiales', NOW() - INTERVAL 5 DAY);
+
+-- Inserts para el restaurante con id 14
+INSERT INTO review (user_id, restaurant_id, content, created_at)
+VALUES
+  (21, 14, 'Comida mexicana autentica', NOW() - INTERVAL 4 DAY),
+  (1, 14, 'Los tacos al pastor son deliciosos', NOW() - INTERVAL 2 DAY),
+  (2, 14, 'Buena relacion calidad-precio', NOW() - INTERVAL 1 DAY),
+  (3, 14, 'Ambiente festivo y alegre', NOW() - INTERVAL 3 DAY),
+  (4, 14, 'Recomiendo probar las quesadillas', NOW() - INTERVAL 5 DAY);
+
+ 
+ -- Inserts para el restaurante con id 15
+INSERT INTO review (user_id, restaurant_id, content, created_at)
+VALUES
+  (5, 15, 'Comida deliciosa y bien presentada', NOW() - INTERVAL 3 DAY),
+  (6, 15, 'Atencion amable y rapida', NOW() - INTERVAL 1 DAY),
+  (7, 15, 'Ambiente acogedor y relajado', NOW() - INTERVAL 2 DAY),
+  (8, 15, 'Recomiendo probar la pasta carbonara', NOW() - INTERVAL 4 DAY),
+  (9, 15, 'Postres caseros irresistibles', NOW() - INTERVAL 5 DAY);
+
+-- Inserts para el restaurante con id 16
+INSERT INTO review (user_id, restaurant_id, content, created_at)
+VALUES
+  (10, 16, 'Mariscos frescos y sabrosos', NOW() - INTERVAL 2 DAY),
+  (11, 16, 'Excelente vista al mar', NOW() - INTERVAL 1 DAY),
+  (12, 16, 'Servicio impecable', NOW() - INTERVAL 3 DAY),
+  (13, 16, 'Ideal para disfrutar de una puesta de sol', NOW() - INTERVAL 4 DAY),
+  (14, 16, 'Amplia variedad de platos de mariscos', NOW() - INTERVAL 5 DAY);
+
+-- Inserts para el restaurante con id 17
+INSERT INTO review (user_id, restaurant_id, content, created_at)
+VALUES
+  (15, 17, 'Sabores asiaticos autenticos', NOW() - INTERVAL 1 DAY),
+  (16, 17, 'Platos picantes y deliciosos', NOW() - INTERVAL 2 DAY),
+  (17, 17, 'Ambiente moderno y elegante', NOW() - INTERVAL 3 DAY),
+  (18, 17, 'Recomiendo probar el sushi', NOW() - INTERVAL 4 DAY),
+  (19, 17, 'Buenas opciones vegetarianas', NOW() - INTERVAL 5 DAY);
+
+-- Inserts para el restaurante con id 18
+INSERT INTO review (user_id, restaurant_id, content, created_at)
+VALUES
+  (20, 18, 'Carnes a la parrilla jugosas y tiernas', NOW() - INTERVAL 3 DAY),
+  (21, 18, 'Gran variedad de cortes de carne', NOW() - INTERVAL 1 DAY),
+  (1, 18, 'Excelente atencion al cliente', NOW() - INTERVAL 2 DAY),
+  (2, 18, 'Ambiente rustico y acogedor', NOW() - INTERVAL 4 DAY),
+  (3, 18, 'Ideal para los amantes de la carne', NOW() - INTERVAL 5 DAY);
+
+-- Inserts para el restaurante con id 19
+INSERT INTO review (user_id, restaurant_id, content, created_at)
+VALUES
+  (4, 19, 'Comida casera y reconfortante', NOW() - INTERVAL 2 DAY),
+  (5, 19, 'Platos tradicionales y autenticos', NOW() - INTERVAL 1 DAY),
+  (6, 19, 'Portiones generosas', NOW() - INTERVAL 3 DAY),
+  (7, 19, 'Recomiendo probar las empanadas', NOW() - INTERVAL 4 DAY),
+  (8, 19, 'Ambiente familiar y calido', NOW() - INTERVAL 5 DAY);
